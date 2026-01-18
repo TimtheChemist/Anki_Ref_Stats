@@ -3,12 +3,13 @@ from collections import Counter
 import re
 
 
-def parse_file_with_regex(filename, target_tags = []):
+def parse_doi(filename, target_tags = []):
     """
     Parse a plaintext file and extract matches for a given regex pattern.
     
     Args:
         filename: Path to the plaintext file to parse
+        target_tags: List of tags to filter references. Only references containing all specified tags will be included.
     
     Returns:
         A list of tuples (title, doi) of all references found in the file
@@ -55,7 +56,6 @@ def parse_file_with_regex(filename, target_tags = []):
     except Exception as e:
         print(f"Error reading file: {e}")
     
-    return list_of_references
 
 
 def map_doi_to_title(reference_tuples):
@@ -71,7 +71,7 @@ def map_doi_to_title(reference_tuples):
     return doi_dict
 
 
-def get_top_n_strings(reference_tuples, n):
+def get_top_n_papers(reference_tuples, n):
     """
     Find the top n most frequently occurring DOI's from a list of (Title, DOI) tuples.
     
@@ -99,7 +99,6 @@ def get_top_n_strings(reference_tuples, n):
     top_n = counter.most_common(n)
     
     return top_n
-
 
 
 def get_paper_title(top_references_list, dict_of_references):
