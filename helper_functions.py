@@ -3,7 +3,7 @@ from collections import Counter
 import re
 
 
-def parse_file_with_regex(filename, target_tag=""):
+def parse_file_with_regex(filename, target_tags = []):
     """
     Parse a plaintext file and extract matches for a given regex pattern.
     
@@ -25,10 +25,15 @@ def parse_file_with_regex(filename, target_tag=""):
         # Use finditer to loop through every match found in the content
         for match in re.finditer(pattern, content):
             raw_tags = match.group(3).strip()
-            if target_tag == "":
+            if target_tags == []:
                 continue
             
-            if target_tag in raw_tags:
+            is_all_tags_present = True
+            for tag in target_tags:
+                if tag not in raw_tags:
+                    is_all_tags_present = False
+                    break
+            if is_all_tags_present:
                 list_of_references.append((match.group(1).strip(), match.group(2).strip()))
 
 
