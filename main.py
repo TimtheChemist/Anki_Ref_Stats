@@ -2,8 +2,8 @@ from doi_functions import parse_doi, get_top_n_papers, map_doi_to_title, get_pap
 from textbook_functions import parse_textbook, get_top_n_textbooks, get_textbook_title
 
 
-target_tags = ["Orbital"]
-nontarget_tags = ["Mechanism"]
+target_tags = []
+nontarget_tags = []
 
 
 def test_paper_functions():
@@ -12,7 +12,6 @@ def test_paper_functions():
     doi_to_title_dict = map_doi_to_title(list_of_paper_references)
 
     top_reference_list = get_top_n_papers(list_of_paper_references, 20)
-    print(top_reference_list)
 
     get_paper_title(top_reference_list, doi_to_title_dict)
 
@@ -23,4 +22,4 @@ def test_textbook_functions():
     get_textbook_title(top_textbook_list)
 
 
-test_textbook_functions()
+test_paper_functions()

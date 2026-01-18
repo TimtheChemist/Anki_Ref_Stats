@@ -105,6 +105,8 @@ def get_top_n_papers(reference_tuples, n):
 
 
 def get_paper_title(top_references_list, dict_of_references):
+    rank = 0
     for tup in top_references_list:
+        rank += 1
         title = dict_of_references.get(tup[0], "Title not found")
-        print(f"Title: {title} - DOI: {tup[0]} - Count: {tup[1]}")
+        print(f"{rank}. {title} - DOI: {tup[0]} - Count: {tup[1]}")

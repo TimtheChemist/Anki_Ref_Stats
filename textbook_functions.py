@@ -26,7 +26,8 @@ def parse_textbook(filename, target_tags = [], nontarget_tags = []):
         # Use finditer to loop through every match found in the content
         for match in re.finditer(pattern, content):
             raw_tags = match.group(3).strip()
-            if target_tags == []:
+            if target_tags == [] and nontarget_tags == []:
+                list_of_references.append((match.group(1).strip()))
                 continue
             
             is_target_tags_present = True
@@ -91,5 +92,7 @@ def get_top_n_textbooks(list_of_textbooks, n):
 
 
 def get_textbook_title(top_references_list):
+    rank = 0
     for tup in top_references_list:
-        print(f"Title: {tup[0]} - Count: {tup[1]}")
+        rank += 1
+        print(f"{rank}. {tup[0]} - Count: {tup[1]}")
