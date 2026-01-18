@@ -3,7 +3,7 @@ from collections import Counter
 import re
 
 
-def parse_file_with_regex(filename):
+def parse_file_with_regex(filename, target_tag=""):
     """
     Parse a plaintext file and extract matches for a given regex pattern.
     
@@ -18,13 +18,19 @@ def parse_file_with_regex(filename):
         with open(filename, 'r', encoding='utf-8') as file:
             content = file.read()
         
-        pattern = r"<b>Reference(?:\s*\d+)?:\s*<\/b>\s*((?:(?!<b>Reference).)+?)\s*\(DOI:\s*(10\.\d{4,9}/(?:[^)]|\([^)]*\))+)\)"
+        pattern = r"<b>Reference(?:\s*\d+)?:\s*<\/b>\s*((?:(?!<b>Reference).)+?)\s*\(DOI:\s*(10\.\d{4,9}/(?:[^)]|\([^)]*\))+)\)[\s\S]*?<strong>\s*Tags:\s*<\/strong>\s*(.+?)(?=\s*<hr>|$)"
 
         list_of_references = []
 
         # Use finditer to loop through every match found in the content
         for match in re.finditer(pattern, content):
-            list_of_references.append((match.group(1).strip(), match.group(2).strip()))
+            raw_tags = match.group(3).strip()
+            if target_tag == "":
+                continue
+            
+            if target_tag in raw_tags:
+                list_of_references.append((match.group(1).strip(), match.group(2).strip()))
+
 
         # Display results for verification
         if not list_of_references:
@@ -94,4 +100,4 @@ def get_top_n_strings(reference_tuples, n):
 def get_paper_title(top_references_list, dict_of_references):
     for tup in top_references_list:
         title = dict_of_references.get(tup[0], "Title not found")
-        print(f"DOI: {tup[0]} - Title: {title} - Count: {tup[1]}")
+        print(f"Title: {title} - DOI: {tup[0]} - Count: {tup[1]}")
