@@ -41,10 +41,6 @@ def parse_doi(filename, target_tags = []):
         # Display results for verification
         if not list_of_references:
             print("No references found.")
-        else:
-            for entry in list_of_references:
-                print(f"Title: {entry[0]}")
-                print(f"DOI:   {entry[1]}\n")
 
         return list_of_references
 

@@ -83,3 +83,8 @@ def get_top_n_textbooks(list_of_textbooks, n):
     top_n = counter.most_common(n)
     
     return top_n
+
+
+def get_textbook_title(top_references_list):
+    for tup in top_references_list:
+        print(f"Title: {tup[0]} - Count: {tup[1]}")
