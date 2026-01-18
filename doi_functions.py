@@ -3,9 +3,9 @@ from collections import Counter
 import re
 
 
-def parse_doi(filename, target_tags = []):
+def parse_doi(filename, target_tags = [], nontarget_tags = []):
     """
-    Parse a plaintext file and extract matches for a given regex pattern.
+    Parse a plaintext file and extract paper references.
     
     Args:
         filename: Path to the plaintext file to parse
@@ -26,16 +26,23 @@ def parse_doi(filename, target_tags = []):
         # Use finditer to loop through every match found in the content
         for match in re.finditer(pattern, content):
             raw_tags = match.group(3).strip()
-            if target_tags == []:
+            if target_tags == [] and nontarget_tags == []:
+                list_of_references.append((match.group(1).strip(), match.group(2).strip()))
                 continue
             
-            is_all_tags_present = True
+            is_target_tags_present = True
+            is_nontarget_tags_present = False
             for tag in target_tags:
                 if tag not in raw_tags:
-                    is_all_tags_present = False
+                    is_target_tags_present = False
                     break
-            if is_all_tags_present:
-                list_of_references.append((match.group(1).strip(), match.group(2).strip()))
+            if is_target_tags_present:
+                for tag in nontarget_tags:
+                    if tag in raw_tags:
+                        is_nontarget_tags_present = True
+                        break
+                if not is_nontarget_tags_present:
+                    list_of_references.append((match.group(1).strip(), match.group(2).strip()))
 
 
         # Display results for verification

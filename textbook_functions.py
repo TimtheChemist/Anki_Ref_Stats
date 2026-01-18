@@ -3,16 +3,16 @@ from collections import Counter
 import re
 
 
-def parse_textbook(filename, target_tags = []):
+def parse_textbook(filename, target_tags = [], nontarget_tags = []):
     """
-    Parse a plaintext file and extract matches for a given regex pattern.
+    Parse a plaintext file and extract matches for textbook references.
     
     Args:
         filename: Path to the plaintext file to parse
         target_tags: List of tags to filter references. Only references containing all specified tags will be included.
     
     Returns:
-        A list of tuples (title, doi) of all references found in the file
+        A list of of all references (including duplicates) found in the file
     """
     
     try:
@@ -29,14 +29,19 @@ def parse_textbook(filename, target_tags = []):
             if target_tags == []:
                 continue
             
-            is_all_tags_present = True
+            is_target_tags_present = True
+            is_nontarget_tags_present = False
             for tag in target_tags:
                 if tag not in raw_tags:
-                    is_all_tags_present = False
+                    is_target_tags_present = False
                     break
-
-            if is_all_tags_present:
-                list_of_references.append(match.group(1).strip())
+            if is_target_tags_present:
+                for tag in nontarget_tags:
+                    if tag in raw_tags:
+                        is_nontarget_tags_present = True
+                        break
+                if not is_nontarget_tags_present:
+                    list_of_references.append((match.group(1).strip()))
 
 
         # Display results for verification
@@ -60,10 +65,10 @@ def parse_textbook(filename, target_tags = []):
 
 def get_top_n_textbooks(list_of_textbooks, n):
     """
-    Find the top n most frequently occurring DOI's from a list of (Title, DOI) tuples.
+    Find the top n most frequently occurring textbooks from a list.
     
     Args:
-        string_list: A list of strings to analyse
+        list_of_textbooks: A list of textbooks (strings) to analyse
         n: Number of top occurrences to return
     
     Returns:
