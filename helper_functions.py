@@ -60,17 +60,21 @@ def map_doi_to_title(reference_tuples):
     return doi_dict
 
 
-def get_top_n_strings(string_list, n):
+def get_top_n_strings(reference_tuples, n):
     """
-    Find the top n most frequently occurring strings in a list.
+    Find the top n most frequently occurring DOI's from a list of (Title, DOI) tuples.
     
     Args:
-        string_list: A list of strings to analyze
+        string_list: A list of strings to analyse
         n: Number of top occurrences to return
     
     Returns:
         A list of tuples containing (string, count) sorted by frequency in descending order
     """
+    string_list = []
+    for tup in reference_tuples:
+        string_list.append(tup[1])
+
     if not string_list:
         return []
     
@@ -87,5 +91,7 @@ def get_top_n_strings(string_list, n):
 
 
 
-def get_paper_title(top_references_list):
-    return
+def get_paper_title(top_references_list, dict_of_references):
+    for tup in top_references_list:
+        title = dict_of_references.get(tup[0], "Title not found")
+        print(f"DOI: {tup[0]} - Title: {title} - Count: {tup[1]}")
