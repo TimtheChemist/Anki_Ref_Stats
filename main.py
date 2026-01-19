@@ -22,5 +22,5 @@ def test_textbook_functions():
     get_textbook_title(top_textbook_list)
 
 
-test_paper_functions()
+
 test_textbook_functions()

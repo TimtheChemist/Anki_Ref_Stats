@@ -1,6 +1,7 @@
 from collections import Counter
 import re
 
+journal_list = []
 
 def parse_textbook(filename, target_tags = [], nontarget_tags = []):
     """
