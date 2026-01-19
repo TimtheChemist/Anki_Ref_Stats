@@ -23,7 +23,7 @@ def parse_doi(filename, target_tags = [], nontarget_tags = []):
     # Group 1: Title
     # Group 2: DOI
     doi_pattern = r"<b>Reference(?:\s*\d+)?:\s*<\/b>\s*((?:(?!<b>Reference).)+?)\s*\(DOI:\s*(10\.\d{4,9}/(?:[^)]|\([^)]*\))+)\)"
-    
+   
     # Pattern for Tags
     tag_pattern = r"<strong>\s*Tags:\s*<\/strong>\s*(.+?)(?=\s*<hr>|$)"
 
@@ -61,9 +61,9 @@ def parse_doi(filename, target_tags = [], nontarget_tags = []):
         if not list_of_references:
             print("No references found.")
 
-        # Remove Synfacts references (which are duplicated with the original paper)
+        # Remove Synfacts references (which are duplicated with the original paper) and buggy DOIs
         for ref in list_of_references:
-            if "Synfacts" in ref[0]:
+            if "Synfacts" in ref[0] or "10.1002/(SICI" in ref[1]:
                 list_of_references.remove(ref)
 
         return list_of_references

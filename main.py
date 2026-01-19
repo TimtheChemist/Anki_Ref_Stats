@@ -1,9 +1,9 @@
 from doi_functions import parse_doi, get_top_n_papers, map_doi_to_title, get_paper_title
 from textbook_functions import parse_textbook, get_top_n_textbooks, get_textbook_title
-
+from stats_functions import parse_tags, get_tag_counts
 
 target_tags = []
-nontarget_tags = ["Review"]
+nontarget_tags = []
 
 
 def test_paper_functions():
@@ -11,7 +11,7 @@ def test_paper_functions():
 
     doi_to_title_dict = map_doi_to_title(list_of_paper_references)
 
-    top_reference_list = get_top_n_papers(list_of_paper_references, 40)
+    top_reference_list = get_top_n_papers(list_of_paper_references, 50)
 
     get_paper_title(top_reference_list, doi_to_title_dict)
 
@@ -23,4 +23,5 @@ def test_textbook_functions():
 
 
 
-test_paper_functions()
+#test_paper_functions()
+parse_tags('All_Decks_Cards.txt')
