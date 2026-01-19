@@ -40,7 +40,6 @@ def parse_tags(filename):
                         # 3. Add to our master list
                         list_of_tags.extend(individual_tags)
           
-        print(list_of_tags)
         print(f"Total tag instances found: {len(list_of_tags)}")
         print(f"Unique tags found: {len(set(list_of_tags))}")
         return list_of_tags
@@ -58,13 +57,13 @@ def get_tag_counts(list_of_tags):
     Find the top n most frequently occurring textbooks from a list.
     
     Args:
-        list_of_textbooks: A list of textbooks (strings) to analyse
+        list_of_tags: A list of tags (strings) to analyse
         n: Number of top occurrences to return
     
     Returns:
-        A list of tuples containing (string, count) sorted by frequency in descending order
+        A dict containing tag-count key-value pairs sorted by frequency in descending order
     """
-
+    dict_of_tags = {}
     if not list_of_tags:
         return []
     
@@ -76,5 +75,8 @@ def get_tag_counts(list_of_tags):
     
     # Get the top n most common strings
     top_n = counter.most_common(len(list_of_tags))
+
+    for tag, count in top_n:
+        dict_of_tags[tag] = count
     
-    return top_n
+    return dict_of_tags
