@@ -24,4 +24,6 @@ def test_textbook_functions():
 
 
 #test_paper_functions()
-parse_tags('All_Decks_Cards.txt')
+tag_list = parse_tags('All_Decks_Cards.txt')
+tag_counts = get_tag_counts(tag_list)
+print(tag_counts)

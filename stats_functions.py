@@ -5,41 +5,40 @@ journal_list = []
 
 def parse_tags(filename):
     """
-    Parse a plaintext file and extract matches for textbook references.
+    Parse a plaintext file and extract matches for tags.
     
     Args:
         filename: Path to the plaintext file to parse
-        target_tags: List of tags to filter references. Only references containing all specified tags will be included.
     
     Returns:
-        A list of of all references (including duplicates) found in the file
+        A list of of all tags (including duplicates) found in the file
     """
     list_of_tags = []
-    note_separator = r'\n(?=")' 
-    tag_pattern = r"<strong>\s*Tags:\s*<\/strong>\s*(.+?)(?=\s*<hr>|$)"
+    # Matches the Tags header specifically
+    header_pattern = r"<strong>\s*Tags:\s*<\/strong>"
 
     try:
         with open(filename, 'r', encoding='utf-8') as file:
-            content = file.read()
-        
-        notes = re.split(note_separator, content)
-        
-        for note in notes:
-            clean_note = note.replace('""', '"').replace('\xa0', ' ')
+            # We iterate line by line for maximum simplicity and memory efficiency
+            lines = file.readlines()
             
-            # 1. Capture the entire block of tags
-            tag_match = re.search(tag_pattern, clean_note, flags=re.DOTALL)
-            
-            if tag_match:
-                # This is the "Combined" string: "Chemistry Economics Economics::Microeconomics"
-                raw_tags_block = tag_match.group(1).strip()
-                
-                # 2. Split the block by whitespace into a list of individual tags
-                # Result: ["Chemistry", "Economics", "Economics::Microeconomics"]
-                individual_tags = raw_tags_block.split()
-                
-                # 3. Use .extend() to add each tag individually to your master list
-                list_of_tags.extend(individual_tags)
+            for i in range(len(lines)):
+                # If we find the "Tags:" header...
+                if re.search(header_pattern, lines[i]):
+                    # ...check if there is a next line available
+                    if i + 1 < len(lines):
+                        tag_line = lines[i+1].strip()
+                        
+                        # 1. Strip any unexpected HTML tags (safety measure)
+                        clean_line = re.sub(r'<[^>]+>', '', tag_line)
+                        
+                        # 2. Split by whitespace to get individual tags
+                        # This handles "Complex HTE" -> ["Complex", "HTE"]
+                        # It also handles "Journal::ACS::OrganicLetters" as one tag
+                        individual_tags = clean_line.split()
+                        
+                        # 3. Add to our master list
+                        list_of_tags.extend(individual_tags)
           
         print(list_of_tags)
         print(f"Total tag instances found: {len(list_of_tags)}")
