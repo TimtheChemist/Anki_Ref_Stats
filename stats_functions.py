@@ -35,6 +35,7 @@ def parse_tags(filename):
                         # 2. Split by whitespace to get individual tags
                         # This handles "Complex HTE" -> ["Complex", "HTE"]
                         # It also handles "Journal::ACS::OrganicLetters" as one tag
+                        clean_line = clean_line.replace('"', "")
                         individual_tags = clean_line.split()
                         
                         # 3. Add to our master list
@@ -80,3 +81,30 @@ def get_tag_counts(list_of_tags):
         dict_of_tags[tag] = count
     
     return dict_of_tags
+
+
+def tag_dict_organiser(dict_of_tags):
+    all_journal_tags = {}
+    journal_parent_tags = {}
+    journal_terminal_tags = {}
+    list_of_parent_journals = ["Journal::ACS", "Journal::Elsevier", "Journal::Wiley", "Journal::SpringerNat", "Journal::Thieme"]
+
+    for tag in dict_of_tags:
+        if "Journal::" in tag:
+            all_journal_tags[tag] = dict_of_tags[tag]
+
+    for tag in all_journal_tags:
+        if tag in list_of_parent_journals:
+            continue
+        else:
+            journal_terminal_tags[tag] = all_journal_tags[tag]
+                
+    for tag in all_journal_tags:
+        if tag in list_of_parent_journals:
+            journal_parent_tags[tag] = all_journal_tags[tag]
+
+    print(all_journal_tags)
+    print(journal_parent_tags)
+    print(journal_terminal_tags)
+
+    return all_journal_tags, journal_parent_tags, journal_terminal_tags
