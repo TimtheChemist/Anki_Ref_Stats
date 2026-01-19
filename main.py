@@ -23,4 +23,4 @@ def test_textbook_functions():
 
 
 
-test_textbook_functions()
+test_paper_functions()

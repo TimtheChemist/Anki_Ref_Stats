@@ -14,35 +14,47 @@ def parse_doi(filename, target_tags = [], nontarget_tags = []):
     Returns:
         A list of tuples (title, doi) of all references found in the file
     """
+    list_of_references = []
     
+    # Updated: Matches any newline followed by a quote (start of a new note)
+    card_separator = r'\n(?=")' 
+    
+    # DOI Pattern: Handles nested parentheses within the DOI string
+    # Group 1: Title
+    # Group 2: DOI
+    doi_pattern = r"<b>Reference(?:\s*\d+)?:\s*<\/b>\s*((?:(?!<b>Reference).)+?)\s*\(DOI:\s*(10\.\d{4,9}/(?:[^)]|\([^)]*\))+)\)"
+    
+    # Pattern for Tags
+    tag_pattern = r"<strong>\s*Tags:\s*<\/strong>\s*(.+?)(?=\s*<hr>|$)"
+
     try:
         with open(filename, 'r', encoding='utf-8') as file:
             content = file.read()
-        
-        pattern = r"<b>Reference(?:\s*\d+)?:\s*<\/b>\s*((?:(?!<b>Reference).)+?)\s*\(DOI:\s*(10\.\d{4,9}/(?:[^)]|\([^)]*\))+)\)[\s\S]*?<strong>\s*Tags:\s*<\/strong>\s*(.+?)(?=\s*<hr>|$)"
+            cards = re.split(card_separator, content)
 
-        list_of_references = []
-
-        # Use finditer to loop through every match found in the content
-        for match in re.finditer(pattern, content):
-            raw_tags = match.group(3).strip()
-            if target_tags == [] and nontarget_tags == []:
-                list_of_references.append((match.group(1).strip(), match.group(2).strip()))
-                continue
-            
-            is_target_tags_present = True
-            is_nontarget_tags_present = False
-            for tag in target_tags:
-                if tag not in raw_tags:
-                    is_target_tags_present = False
-                    break
-            if is_target_tags_present:
-                for tag in nontarget_tags:
-                    if tag in raw_tags:
-                        is_nontarget_tags_present = True
-                        break
-                if not is_nontarget_tags_present:
+        for card in cards:
+            # Use finditer to loop through every match found in the content
+            for match in re.finditer(doi_pattern, card):
+                tag_match = re.search(tag_pattern, card, flags=re.DOTALL)
+                raw_tags = tag_match.group(1).strip() if tag_match else ""
+                
+                if target_tags == [] and nontarget_tags == []:
                     list_of_references.append((match.group(1).strip(), match.group(2).strip()))
+                    continue
+                
+                is_target_tags_present = True
+                is_nontarget_tags_present = False
+                for tag in target_tags:
+                    if tag not in raw_tags:
+                        is_target_tags_present = False
+                        break
+                if is_target_tags_present:
+                    for tag in nontarget_tags:
+                        if tag in raw_tags:
+                            is_nontarget_tags_present = True
+                            break
+                    if not is_nontarget_tags_present:
+                        list_of_references.append((match.group(1).strip(), match.group(2).strip()))
 
 
         # Display results for verification
