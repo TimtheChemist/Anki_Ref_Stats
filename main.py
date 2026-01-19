@@ -3,7 +3,7 @@ from textbook_functions import parse_textbook, get_top_n_textbooks, get_textbook
 
 
 target_tags = []
-nontarget_tags = []
+nontarget_tags = ["Review"]
 
 
 def test_paper_functions():

@@ -61,6 +61,11 @@ def parse_doi(filename, target_tags = [], nontarget_tags = []):
         if not list_of_references:
             print("No references found.")
 
+        # Remove Synfacts references (which are duplicated with the original paper)
+        for ref in list_of_references:
+            if "Synfacts" in ref[0]:
+                list_of_references.remove(ref)
+
         return list_of_references
 
 
