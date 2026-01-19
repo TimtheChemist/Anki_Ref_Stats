@@ -1,7 +1,6 @@
 from collections import Counter
 import re
 
-journal_list = []
 
 def parse_tags(filename):
     """
