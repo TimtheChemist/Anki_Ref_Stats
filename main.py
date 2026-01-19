@@ -11,7 +11,7 @@ def test_paper_functions():
 
     doi_to_title_dict = map_doi_to_title(list_of_paper_references)
 
-    top_reference_list = get_top_n_papers(list_of_paper_references, 20)
+    top_reference_list = get_top_n_papers(list_of_paper_references, 40)
 
     get_paper_title(top_reference_list, doi_to_title_dict)
 
@@ -23,3 +23,4 @@ def test_textbook_functions():
 
 
 test_paper_functions()
+test_textbook_functions()
