@@ -1,15 +1,17 @@
 from stats_functions import parse_tags, get_tag_counts, tag_dict_organiser
-from core import generate_paper_frequencies, generate_textbook_frequencies, get_textbooks_by_note_range
+from core import generate_paper_frequencies, generate_textbook_frequencies, get_textbooks_by_note_range, get_papers_by_note_range
 
 filename = 'All_Decks_Cards.txt'
 range_of_papers = (10,50)
 range_of_textbooks = (10,25)
-range_of_notes = (100,200)
+range_of_notes = (10,20)
 
 target_tags = []
 nontarget_tags = []
 
-get_textbooks_by_note_range(filename, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags)
+#get_textbooks_by_note_range(filename, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags)
+get_papers_by_note_range(filename, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags)
+
 
 #generate_paper_frequencies(filename, range_of_papers, target_tags, nontarget_tags)
 #generate_textbook_frequencies(filename, range_of_textbooks, target_tags, nontarget_tags)
