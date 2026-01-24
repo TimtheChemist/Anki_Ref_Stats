@@ -1,5 +1,5 @@
 from doi_functions import parse_doi, get_list_of_papers, map_doi_to_title, get_paper_title
-from textbook_functions import parse_textbook, get_list_of_textbooks, get_textbook_title
+from textbook_functions import parse_textbook, get_list_of_textbooks, get_range_of_textbooks
 from stats_functions import parse_tags, get_tag_counts, tag_dict_organiser
 
 def generate_paper_frequencies(filename, ref_range, target_tags=[], nontarget_tags=[]):
@@ -40,4 +40,4 @@ def generate_textbook_frequencies(filename, ref_range, target_tags=[], nontarget
     list_of_textbook_references = parse_textbook(filename, target_tags = target_tags, nontarget_tags = nontarget_tags)
 
     full_textbook_list = get_list_of_textbooks(list_of_textbook_references)
-    get_textbook_title(ref_range, full_textbook_list)
+    get_range_of_textbooks(ref_range, full_textbook_list)

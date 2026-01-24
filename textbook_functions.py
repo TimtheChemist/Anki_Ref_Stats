@@ -57,9 +57,6 @@ def parse_textbook(filename, target_tags = [], nontarget_tags = []):
         # Display results for verification
         if not list_of_references:
             print("No references found.")
-        else:
-            for entry in list_of_references:
-                print(f"Title: {entry}")
 
         return list_of_references
 
@@ -99,7 +96,7 @@ def get_list_of_textbooks(list_of_textbooks):
     return sorted_list_of_textbooks
 
 
-def get_textbook_title(ref_range, sorted_list_of_textbooks):
+def get_range_of_textbooks(ref_range, sorted_list_of_textbooks):
     """
     Find the nth to mth most frequently occurring textbooks from a list of (Title, count) tuples.
     
