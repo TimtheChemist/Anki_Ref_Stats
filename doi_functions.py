@@ -100,7 +100,7 @@ def get_top_n_papers(reference_tuples, n):
         n: Number of top occurrences to return
     
     Returns:
-        A list of tuples containing (string, count) sorted by frequency in descending order
+        A list of tuples containing (DOI string, count) sorted by frequency in descending order
     """
     string_list = []
     for tup in reference_tuples:
