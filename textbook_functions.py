@@ -73,13 +73,12 @@ def parse_textbook(filename, target_tags = [], nontarget_tags = []):
     
 
 
-def get_top_n_textbooks(list_of_textbooks, n):
+def get_list_of_textbooks(list_of_textbooks):
     """
-    Find the top n most frequently occurring textbooks from a list.
+    Convert a list of textbook title strings to a sorted list of (title, count) tuples.
     
     Args:
-        list_of_textbooks: A list of textbooks (strings) to analyse
-        n: Number of top occurrences to return
+        list_of_textbooks: A list of textbook titles (strings) to analyse
     
     Returns:
         A list of tuples containing (string, count) sorted by frequency in descending order
@@ -88,20 +87,35 @@ def get_top_n_textbooks(list_of_textbooks, n):
     if not list_of_textbooks:
         return []
     
-    if n < 1:
+    if len(list_of_textbooks) < 1:
         return []
     
     # Count occurrences of each string
     counter = Counter(list_of_textbooks)
     
     # Get the top n most common strings
-    top_n = counter.most_common(n)
+    sorted_list_of_textbooks = counter.most_common(len(set(list_of_textbooks)))
     
-    return top_n
+    return sorted_list_of_textbooks
 
 
-def get_textbook_title(top_references_list):
-    rank = 0
-    for tup in top_references_list:
-        rank += 1
-        print(f"{rank}. {tup[0]} - Count: {tup[1]}")
+def get_textbook_title(ref_range, sorted_list_of_textbooks):
+    """
+    Find the nth to mth most frequently occurring textbooks from a list of (Title, count) tuples.
+    
+    Args:
+        ref_range: (start, end) tuple of occurrences to return
+        sorted_references list: A list of tuples containing (DOI string, count) sorted by frequency in descending order
+        dict_of_references: A dictionary mapping DOI strings to paper titles
+
+    Returns:
+        A list of tuples containing (DOI string, count) sorted by frequency in descending order
+    """
+
+    for rank in range(ref_range[0], ref_range[1]+1):
+        if rank > len(sorted_list_of_textbooks):
+            print(f"Warning: Requested range {ref_range} exceeds available references ({len(sorted_references_list)}). Adjusting end to {len(sorted_references_list)}.")
+            ref_range = (ref_range[0], len(sorted_list_of_textbooks))
+            break
+    
+        print(f"{rank}. {sorted_list_of_textbooks[rank][0]} - Count: {sorted_list_of_textbooks[rank][1]}")

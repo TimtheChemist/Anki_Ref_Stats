@@ -3,14 +3,14 @@ from core import generate_paper_frequencies, generate_textbook_frequencies
 
 filename = 'All_Decks_Cards.txt'
 range_of_papers = (10,50)
-top_n_textbooks = 20
+range_of_textbooks = (10,25)
 
 target_tags = []
 nontarget_tags = []
 
 
-generate_paper_frequencies(filename, range_of_papers, target_tags, nontarget_tags)
-#generate_textbook_frequencies(filename, top_n_textbooks, target_tags, nontarget_tags)
+#generate_paper_frequencies(filename, range_of_papers, target_tags, nontarget_tags)
+generate_textbook_frequencies(filename, range_of_textbooks, target_tags, nontarget_tags)
 
 """
 tag_list = parse_tags('All_Decks_Cards.txt')

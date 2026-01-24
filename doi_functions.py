@@ -93,7 +93,7 @@ def map_doi_to_title(list_of_references):
 
 def get_list_of_papers(list_of_references):
     """
-    Find the top n most frequently occurring DOI's from a list of (Title, DOI) tuples.
+    Convert a list of (Title, DOI) tuples to a sorted list of (DOI, count) tuples.
     
     Args:
         list_of_references: A list of tuples (title, doi) of references
@@ -122,7 +122,7 @@ def get_list_of_papers(list_of_references):
 
 def get_paper_title(ref_range, sorted_references_list, dict_of_references):
     """
-    Find the top n most frequently occurring DOI's from a list of (Title, DOI) tuples.
+    Find the nth to mth most frequently occurring DOI's from a list of (Title, count) tuples.
     
     Args:
         ref_range: (start, end) tuple of occurrences to return

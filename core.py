@@ -1,5 +1,5 @@
 from doi_functions import parse_doi, get_list_of_papers, map_doi_to_title, get_paper_title
-from textbook_functions import parse_textbook, get_top_n_textbooks, get_textbook_title
+from textbook_functions import parse_textbook, get_list_of_textbooks, get_textbook_title
 from stats_functions import parse_tags, get_tag_counts, tag_dict_organiser
 
 def generate_paper_frequencies(filename, ref_range, target_tags=[], nontarget_tags=[]):
@@ -24,7 +24,7 @@ def generate_paper_frequencies(filename, ref_range, target_tags=[], nontarget_ta
     get_paper_title(ref_range, full_reference_list, doi_to_title_dict)
 
 
-def generate_textbook_frequencies(filename, top_n, target_tags=[], nontarget_tags=[]):
+def generate_textbook_frequencies(filename, ref_range, target_tags=[], nontarget_tags=[]):
     """
     Finds the top n most frequently occurring textbook titles from a file, filtered by target and nontarget tags.
     
@@ -39,5 +39,5 @@ def generate_textbook_frequencies(filename, top_n, target_tags=[], nontarget_tag
     """
     list_of_textbook_references = parse_textbook(filename, target_tags = target_tags, nontarget_tags = nontarget_tags)
 
-    top_textbook_list = get_top_n_textbooks(list_of_textbook_references, top_n)
-    get_textbook_title(top_textbook_list)
+    full_textbook_list = get_list_of_textbooks(list_of_textbook_references)
+    get_textbook_title(ref_range, full_textbook_list)
