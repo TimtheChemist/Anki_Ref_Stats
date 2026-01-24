@@ -83,12 +83,12 @@ def get_papers_by_note_range(filename, range_of_notes, target_tags=[], nontarget
     
     Args:
         filename: Path to the file to be parsed
-        range_of_notes: (min, max) tuple of number of notes to filter textbooks
+        range_of_notes: (min, max) tuple of number of notes to filter papers
         target_tags: List of tags that must be present in a reference
         nontarget_tags: List of tags that must not be present in a reference
 
     Returns:
-        None; prints all textbooks with note counts within the specified range
+        None; prints all papers with note counts within the specified range
     """
     try:
         list_of_paper_references = parse_doi(filename, target_tags = target_tags, nontarget_tags = nontarget_tags)
@@ -99,7 +99,7 @@ def get_papers_by_note_range(filename, range_of_notes, target_tags=[], nontarget
         for rank in range(0, len(full_paper_list)):
             if full_paper_list[rank][1] >= range_of_notes[0] and full_paper_list[rank][1] <= range_of_notes[1]:
                 title = dict_of_references.get(full_paper_list[rank][0], "Title not found")
-                print(f"{rank}. {title} - DOI: {full_paper_list[rank][0]} - Count: {full_paper_list[rank][1]}")
+                print(f"{rank+1}. {title} - DOI: {full_paper_list[rank][0]} - Count: {full_paper_list[rank][1]}")
 
     except FileNotFoundError:
         print(f"Error: File '{filename}' not found")
