@@ -107,7 +107,7 @@ def get_range_of_textbooks(ref_range, sorted_list_of_textbooks):
     Returns:
         A list of tuples containing (DOI string, count) sorted by frequency in descending order
     """
-
+    message = ""
     for rank in range(ref_range[0], ref_range[1]+1):
         if rank > len(sorted_list_of_textbooks):
             print(f"Warning: Requested range {ref_range} exceeds available references ({len(sorted_references_list)}). Adjusting end to {len(sorted_references_list)}.")
@@ -115,20 +115,6 @@ def get_range_of_textbooks(ref_range, sorted_list_of_textbooks):
             break
     
         print(f"{rank}. {sorted_list_of_textbooks[rank][0]} - Count: {sorted_list_of_textbooks[rank][1]}")
-
-
-def get_textbooks_by_note_range(range_of_notes, sorted_list_of_textbooks):
-    """
-    Find all textbooks with n to m notes from a list of (Title, count) tuples.
+        message += f"{rank}. {sorted_list_of_textbooks[rank][0]} - Count: {sorted_list_of_textbooks[rank][1]}\n"
     
-    Args:
-        range_of_notes: (min, max) tuple of number of notes to filter textbooks
-        sorted_references list: A list of tuples containing (textbook title, count) sorted by frequency in descending order
-
-    Returns:
-        A list of tuples containing (textbook title, count) sorted by frequency in descending order
-    """
-
-    for rank in range(0, len(sorted_list_of_textbooks)):
-        if sorted_list_of_textbooks[rank][1] >= range_of_notes[0] and sorted_list_of_textbooks[rank][1] <= range_of_notes[1]:
-            print(f"{rank+1}. {sorted_list_of_textbooks[rank][0]} - Count: {sorted_list_of_textbooks[rank][1]}")
+    return message

@@ -132,7 +132,7 @@ def get_range_of_papers(ref_range, sorted_references_list, dict_of_references):
     Returns:
         A list of tuples containing (DOI string, count) sorted by frequency in descending order
     """
-
+    message = ""
     for rank in range(ref_range[0], ref_range[1]+1):
         if rank > len(sorted_references_list):
             print(f"Warning: Requested range {ref_range} exceeds available references ({len(sorted_references_list)}). Adjusting end to {len(sorted_references_list)}.")
@@ -141,3 +141,6 @@ def get_range_of_papers(ref_range, sorted_references_list, dict_of_references):
     
         title = dict_of_references.get(sorted_references_list[rank][0], "Title not found")
         print(f"{rank}. {title} - DOI: {sorted_references_list[rank][0]} - Count: {sorted_references_list[rank][1]}")
+        message += f"{rank}. {title} - DOI: {sorted_references_list[rank][0]} - Count: {sorted_references_list[rank][1]}\n"
+    
+    return message
