@@ -8,7 +8,7 @@ def generate_paper_frequencies(filename, ref_range, target_tags=[], nontarget_ta
     
     Args:
         filename: Path to the file to be parsed
-        top_n: Number of top occurrences to return
+        ref_range: (start, end) tuple of occurrences to return
         target_tags: List of tags that must be present in a reference
         nontarget_tags: List of tags that must not be present in a reference
     
@@ -30,7 +30,7 @@ def generate_textbook_frequencies(filename, ref_range, target_tags=[], nontarget
     
     Args:
         filename: Path to the file to be parsed
-        top_n: Number of top occurrences to return
+        ref_range: (start, end) tuple of occurrences to return
         target_tags: List of tags that must be present in a reference
         nontarget_tags: List of tags that must not be present in a reference
     
@@ -49,16 +49,27 @@ def get_textbooks_by_note_range(filename, range_of_notes, target_tags=[], nontar
     Find all textbooks with n to m notes from a list of (Title, count) tuples.
     
     Args:
+        filename: Path to the file to be parsed
         range_of_notes: (min, max) tuple of number of notes to filter textbooks
-        sorted_references list: A list of tuples containing (textbook title, count) sorted by frequency in descending order
+        target_tags: List of tags that must be present in a reference
+        nontarget_tags: List of tags that must not be present in a reference
 
     Returns:
-        A list of tuples containing (textbook title, count) sorted by frequency in descending order
+        None; prints all textbooks with note counts within the specified range
     """
-    list_of_textbook_references = parse_textbook(filename, target_tags = target_tags, nontarget_tags = nontarget_tags)
-    full_textbook_list = get_list_of_textbooks(list_of_textbook_references)
+    try:
+        list_of_textbook_references = parse_textbook(filename, target_tags = target_tags, nontarget_tags = nontarget_tags)
+        full_textbook_list = get_list_of_textbooks(list_of_textbook_references)
 
 
-    for rank in range(0, len(full_textbook_list)):
-        if full_textbook_list[rank][1] >= range_of_notes[0] and full_textbook_list[rank][1] <= range_of_notes[1]:
-            print(f"{rank+1}. {full_textbook_list[rank][0]} - Count: {full_textbook_list[rank][1]}")
+        for rank in range(0, len(full_textbook_list)):
+            if full_textbook_list[rank][1] >= range_of_notes[0] and full_textbook_list[rank][1] <= range_of_notes[1]:
+                print(f"{rank+1}. {full_textbook_list[rank][0]} - Count: {full_textbook_list[rank][1]}")
+
+
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found")
+    except re.error as e:
+        print(f"Error: Invalid regex pattern - {e}")
+    except Exception as e:
+        print(f"Error reading file: {e}")
