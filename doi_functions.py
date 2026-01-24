@@ -120,7 +120,7 @@ def get_list_of_papers(list_of_references):
     return sorted_references_list
 
 
-def get_paper_title(ref_range, sorted_references_list, dict_of_references):
+def get_range_of_papers(ref_range, sorted_references_list, dict_of_references):
     """
     Find the nth to mth most frequently occurring DOI's from a list of (Title, count) tuples.
     
