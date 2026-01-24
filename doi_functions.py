@@ -78,52 +78,66 @@ def parse_doi(filename, target_tags = [], nontarget_tags = []):
     
 
 
-def map_doi_to_title(reference_tuples):
+def map_doi_to_title(list_of_references):
     """
     Converts a list of (title, doi) tuples into a dictionary of {doi: title}.
     Duplicates are automatically handled (the last title encountered for a DOI is kept).
     """
     doi_dict = {}
     # Using a dictionary comprehension to swap (title, doi) -> {doi: title}
-    for item in reference_tuples:
+    for item in list_of_references:
         doi_dict[item[1]] = item[0]
     
     return doi_dict
 
 
-def get_top_n_papers(reference_tuples, n):
+def get_list_of_papers(list_of_references):
     """
     Find the top n most frequently occurring DOI's from a list of (Title, DOI) tuples.
     
     Args:
-        string_list: A list of strings to analyse
-        n: Number of top occurrences to return
+        list_of_references: A list of tuples (title, doi) of references
     
     Returns:
         A list of tuples containing (DOI string, count) sorted by frequency in descending order
     """
     string_list = []
-    for tup in reference_tuples:
+    for tup in list_of_references:
         string_list.append(tup[1])
 
     if not string_list:
         return []
     
-    if n < 1:
+    if len(list_of_references) < 1:
         return []
     
     # Count occurrences of each string
     counter = Counter(string_list)
     
     # Get the top n most common strings
-    top_n = counter.most_common(n)
+    sorted_references_list = counter.most_common(len(set(string_list)))
     
-    return top_n
+    return sorted_references_list
 
 
-def get_paper_title(top_references_list, dict_of_references):
-    rank = 0
-    for tup in top_references_list:
-        rank += 1
-        title = dict_of_references.get(tup[0], "Title not found")
-        print(f"{rank}. {title} - DOI: {tup[0]} - Count: {tup[1]}")
+def get_paper_title(ref_range, sorted_references_list, dict_of_references):
+    """
+    Find the top n most frequently occurring DOI's from a list of (Title, DOI) tuples.
+    
+    Args:
+        ref_range: (start, end) tuple of occurrences to return
+        sorted_references list: A list of tuples containing (DOI string, count) sorted by frequency in descending order
+        dict_of_references: A dictionary mapping DOI strings to paper titles
+
+    Returns:
+        A list of tuples containing (DOI string, count) sorted by frequency in descending order
+    """
+
+    for rank in range(ref_range[0], ref_range[1]+1):
+        if rank > len(sorted_references_list):
+            print(f"Warning: Requested range {ref_range} exceeds available references ({len(sorted_references_list)}). Adjusting end to {len(sorted_references_list)}.")
+            ref_range = (ref_range[0], len(sorted_references_list))
+            break
+    
+        title = dict_of_references.get(sorted_references_list[rank][0], "Title not found")
+        print(f"{rank}. {title} - DOI: {sorted_references_list[rank][0]} - Count: {sorted_references_list[rank][1]}")
