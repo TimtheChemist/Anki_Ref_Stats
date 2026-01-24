@@ -14,7 +14,7 @@ def generate_paper_frequencies(filename, ref_range, target_tags=[], nontarget_ta
         nontarget_tags: List of tags that must not be present in a reference
     
     Returns:
-        None; prints the top n DOI's with their corresponding titles
+        Returns (and prints) the top n to m DOI's with their corresponding titles and counts
     """
     list_of_paper_references = parse_doi(filename, target_tags = target_tags, nontarget_tags = nontarget_tags)
 
@@ -36,7 +36,7 @@ def generate_textbook_frequencies(filename, ref_range, target_tags=[], nontarget
         nontarget_tags: List of tags that must not be present in a reference
     
     Returns:
-        None; prints the top n textbook titles
+        Returns (and prints) the top n to m textbooks with their corresponding counts
     """
     list_of_textbook_references = parse_textbook(filename, target_tags = target_tags, nontarget_tags = nontarget_tags)
 
@@ -56,7 +56,7 @@ def get_textbooks_by_note_range(filename, range_of_notes, target_tags=[], nontar
         nontarget_tags: List of tags that must not be present in a reference
 
     Returns:
-        None; prints all textbooks with note counts within the specified range
+        Returns (and prints) all textbooks with note counts within the specified range
     """
     try:
         list_of_textbook_references = parse_textbook(filename, target_tags = target_tags, nontarget_tags = nontarget_tags)
@@ -90,7 +90,7 @@ def get_papers_by_note_range(filename, range_of_notes, target_tags=[], nontarget
         nontarget_tags: List of tags that must not be present in a reference
 
     Returns:
-        None; prints all papers with note counts within the specified range
+        Returns (and prints) all papers with note counts within the specified range
     """
     try:
         list_of_paper_references = parse_doi(filename, target_tags = target_tags, nontarget_tags = nontarget_tags)
