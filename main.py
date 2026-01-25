@@ -1,5 +1,5 @@
 from stats_functions import parse_tags, get_tag_counts, tag_dict_organiser
-from core import generate_paper_frequencies, generate_textbook_frequencies, get_textbooks_by_note_range, get_papers_by_note_range
+from core import generate_paper_frequencies, generate_textbook_frequencies, get_textbooks_by_note_range, get_papers_by_note_range, convert_string_to_df
 
 import os
 import streamlit as st
@@ -20,7 +20,9 @@ nontarget_tags = ["Review"]
 #get_papers_by_note_range(filename, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags)
 
 
-generate_paper_frequencies(filename, range_of_papers, target_tags, nontarget_tags)
+new_df = convert_string_to_df(generate_paper_frequencies(filename, range_of_papers, target_tags, nontarget_tags))
+print(new_df)
+
 #generate_textbook_frequencies(filename, range_of_textbooks, target_tags, nontarget_tags)
 
 """
