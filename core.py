@@ -22,7 +22,7 @@ def generate_paper_frequencies(filename, ref_range, target_tags=[], nontarget_ta
 
     full_reference_list = get_list_of_papers(list_of_paper_references)
 
-    get_range_of_papers(ref_range, full_reference_list, doi_to_title_dict)
+    return get_range_of_papers(ref_range, full_reference_list, doi_to_title_dict)
 
 
 def generate_textbook_frequencies(filename, ref_range, target_tags=[], nontarget_tags=[]):
@@ -41,7 +41,7 @@ def generate_textbook_frequencies(filename, ref_range, target_tags=[], nontarget
     list_of_textbook_references = parse_textbook(filename, target_tags = target_tags, nontarget_tags = nontarget_tags)
 
     full_textbook_list = get_list_of_textbooks(list_of_textbook_references)
-    get_range_of_textbooks(ref_range, full_textbook_list)
+    return get_range_of_textbooks(ref_range, full_textbook_list)
 
 
 

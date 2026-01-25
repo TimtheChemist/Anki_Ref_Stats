@@ -10,7 +10,7 @@ st.title("Anki Reference Parser")
 
 # Input fields for user
 st.sidebar.header("Input Parameters")
-path = st.sidebar.text_input("Enter the file path:", r'"\\wsl.localhost\Ubuntu\home\timot\workspace\github.com\Anki_Ref_Stats"')
+path = st.sidebar.text_input("Enter the file path:", r'"/home/timot/workspace/github.com/Anki_Ref_Stats"')
 filename = st.sidebar.text_input("Enter the plaintext file name (without extension):", 'All_Decks_Cards.txt')
 full_path = os.path.join(path.strip('"'), filename)
 
@@ -21,20 +21,27 @@ range_of_notes = st.sidebar.text_input("Enter the range of notes for filtering t
 range_of_notes = (int(range_of_notes[0]), int(range_of_notes[1]))
 
 target_tags = st.sidebar.text_input("Enter the tags for matching: ", "Review").split(",")
-nontarget_tags = st.sidebar.text_input("Enter the tags for exclusion: ", "Photochemistry").split(",")
+if target_tags == ['']:
+    target_tags = []
 
+nontarget_tags = st.sidebar.text_input("Enter the tags for exclusion: ", "Photochemistry").split(",")
+if nontarget_tags == ['']:
+    nontarget_tags = []
+
+# Buttons to trigger functions
 if st.sidebar.button("Generate Paper Frequencies"):
     st.subheader("Top Paper Frequencies")
-    generate_paper_frequencies(full_path, range_of_references, target_tags, nontarget_tags) 
+    st.write(generate_paper_frequencies(full_path, range_of_references, target_tags=target_tags, nontarget_tags=nontarget_tags))
 
 if st.sidebar.button("Generate Textbook Frequencies"):
     st.subheader("Top Textbook Frequencies")
-    generate_textbook_frequencies(full_path, range_of_references, target_tags, nontarget_tags)
+    st.write(generate_textbook_frequencies(full_path, range_of_references, target_tags=target_tags, nontarget_tags=nontarget_tags))
 
 if st.sidebar.button("Get Textbooks by Note Range"):
     st.subheader("Textbooks by Note Range")
-    get_textbooks_by_note_range(full_path, range_of_notes, target_tags, nontarget_tags)
+    st.write(get_textbooks_by_note_range(full_path, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
 
 if st.sidebar.button("Get Papers by Note Range"):
     st.subheader("Papers by Note Range")
-    get_papers_by_note_range(full_path, range_of_notes, target_tags, nontarget_tags)
+    st.write(get_papers_by_note_range(full_path, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
+
