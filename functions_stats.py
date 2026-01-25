@@ -124,8 +124,10 @@ def generate_pie_chart(filename, tags=[]):
     tag_counts_dict = get_tag_counts(tag_list)
 
     if tags:
+        # Convert your target tags to lowercase once for efficiency
+        tags = {t.lower() for t in tags}
         # Filter the tag_counts_dict to include only specified tags
-        tag_counts_dict = {tag: count for tag, count in tag_counts_dict.items() if tag in tags}
+        tag_counts_dict = {tag: count for tag, count in tag_counts_dict.items() if tag.lower() in tags}
     
     df = pd.DataFrame.from_dict(tag_counts_dict, orient='index', columns=['No. of Notes'])
     df = df.reset_index().rename(columns={'index': 'Tag'})
@@ -134,3 +136,4 @@ def generate_pie_chart(filename, tags=[]):
     pie_chart = px.pie(df, values='No. of Notes', names='Tag', title='Tag Distribution in Anki Notes')
     
     return pie_chart
+

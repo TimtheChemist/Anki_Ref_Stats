@@ -37,6 +37,7 @@ def parse_doi(filename, target_tags = [], nontarget_tags = []):
             for match in re.finditer(doi_pattern, card):
                 tag_match = re.search(tag_pattern, card, flags=re.DOTALL)
                 raw_tags = tag_match.group(1).strip() if tag_match else ""
+            
                 
                 if target_tags == [] and nontarget_tags == []:
                     list_of_references.append((match.group(1).strip(), match.group(2).strip()))
@@ -133,7 +134,16 @@ def get_range_of_papers(ref_range, sorted_references_list, dict_of_references):
         A list of tuples containing (DOI string, count) sorted by frequency in descending order
     """
     message = ""
-    for rank in range(ref_range[0]-1, ref_range[1]):
+    end_range = ref_range[1]
+
+    if len(sorted_references_list) == 0:
+        return "No references found matching the specified criteria."
+
+    if len(sorted_references_list) < ref_range[1]:
+        end_range = len(sorted_references_list)
+        print(f"Warning: Requested start {ref_range[0]} exceeds available references ({len(sorted_references_list)}). Adjusting start to {len(sorted_references_list)}.")
+
+    for rank in range(ref_range[0]-1, end_range):
         if rank > len(sorted_references_list):
             print(f"Warning: Requested range {ref_range} exceeds available references ({len(sorted_references_list)}). Adjusting end to {len(sorted_references_list)}.")
             ref_range = (ref_range[0], len(sorted_references_list))
