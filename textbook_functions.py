@@ -108,13 +108,13 @@ def get_range_of_textbooks(ref_range, sorted_list_of_textbooks):
         A list of tuples containing (DOI string, count) sorted by frequency in descending order
     """
     message = ""
-    for rank in range(ref_range[0], ref_range[1]+1):
+    for rank in range(ref_range[0]-1, ref_range[1]):
         if rank > len(sorted_list_of_textbooks):
             print(f"Warning: Requested range {ref_range} exceeds available references ({len(sorted_references_list)}). Adjusting end to {len(sorted_references_list)}.")
             ref_range = (ref_range[0], len(sorted_list_of_textbooks))
             break
     
-        print(f"{rank}. {sorted_list_of_textbooks[rank][0]} - Count: {sorted_list_of_textbooks[rank][1]}")
-        message += f"{rank}. {sorted_list_of_textbooks[rank][0]} - Count: {sorted_list_of_textbooks[rank][1]}\n"
+        print(f"{rank+1}. {sorted_list_of_textbooks[rank][0]} ({sorted_list_of_textbooks[rank][1]} notes)")
+        message += f"{rank+1}. {sorted_list_of_textbooks[rank][0]} ({sorted_list_of_textbooks[rank][1]} notes)\n"
     
     return message

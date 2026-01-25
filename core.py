@@ -65,8 +65,8 @@ def get_textbooks_by_note_range(filename, range_of_notes, target_tags=[], nontar
         message = ""
         for rank in range(0, len(full_textbook_list)):
             if full_textbook_list[rank][1] >= range_of_notes[0] and full_textbook_list[rank][1] <= range_of_notes[1]:
-                print(f"{rank+1}. {full_textbook_list[rank][0]} - Count: {full_textbook_list[rank][1]}")
-                message += f"{rank+1}. {full_textbook_list[rank][0]} - Count: {full_textbook_list[rank][1]}\n"
+                print(f"{rank+1}. {full_textbook_list[rank][0]} ({full_textbook_list[rank][1]} notes)")
+                message += f"{rank+1}. {full_textbook_list[rank][0]} ({full_textbook_list[rank][1]} notes)\n"
         
         return message
 
@@ -102,8 +102,8 @@ def get_papers_by_note_range(filename, range_of_notes, target_tags=[], nontarget
         for rank in range(0, len(full_paper_list)):
             if full_paper_list[rank][1] >= range_of_notes[0] and full_paper_list[rank][1] <= range_of_notes[1]:
                 title = dict_of_references.get(full_paper_list[rank][0], "Title not found")
-                print(f"{rank+1}. {title} - DOI: {full_paper_list[rank][0]} - Count: {full_paper_list[rank][1]}")
-                message += f"{rank+1}. {title} - DOI: {full_paper_list[rank][0]} - Count: {full_paper_list[rank][1]}\n"
+                print(f"{rank+1}. {title} - DOI: {full_paper_list[rank][0]} ({full_paper_list[rank][1]} notes)")
+                message += f"{rank+1}. {title} - DOI: {full_paper_list[rank][0]} ({full_paper_list[rank][1]} notes)\n"
         
         return message
 
