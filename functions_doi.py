@@ -78,7 +78,6 @@ def parse_doi(filename, target_tags = [], nontarget_tags = []):
         print(f"Error reading file: {e}")
     
 
-
 def map_doi_to_title(list_of_references):
     """
     Converts a list of (title, doi) tuples into a dictionary of {doi: title}.

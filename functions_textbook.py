@@ -69,7 +69,6 @@ def parse_textbook(filename, target_tags = [], nontarget_tags = []):
         print(f"Error reading file: {e}")
     
 
-
 def get_list_of_textbooks(list_of_textbooks):
     """
     Convert a list of textbook title strings to a sorted list of (title, count) tuples.

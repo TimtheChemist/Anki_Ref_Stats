@@ -111,7 +111,7 @@ def tag_dict_organiser(dict_of_tags):
     return all_journal_tags, journal_parent_tags, journal_terminal_tags
 
 
-def generate_pie_chart(filename, tags=[]):
+def generate_pie_chart(filename, tags=[], number=""):
     """
     Generate a pie chart of tag distribution from the given file.
     
@@ -129,6 +129,9 @@ def generate_pie_chart(filename, tags=[]):
         # Filter the tag_counts_dict to include only specified tags
         tag_counts_dict = {tag: count for tag, count in tag_counts_dict.items() if tag.lower() in tags}
     
+    if isinstance(number, int):
+        tag_counts_dict = dict(Counter(tag_counts_dict).most_common(number))
+
     df = pd.DataFrame.from_dict(tag_counts_dict, orient='index', columns=['No. of Notes'])
     df = df.reset_index().rename(columns={'index': 'Tag'})
 
