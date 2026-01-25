@@ -84,7 +84,10 @@ def get_tag_counts(list_of_tags):
     return dict_of_tags
 
 
-def tag_dict_organiser(dict_of_tags):
+def tag_dict_organiser(filename):
+    tag_list = parse_tags(filename)
+    tag_counts_dict = get_tag_counts(tag_list)
+
     all_journal_tags = {}
     journal_parent_tags = {}
     journal_terminal_tags = {}
