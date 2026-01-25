@@ -1,6 +1,8 @@
 from collections import Counter
 import re
-
+import streamlit as st
+import plotly.express as px
+import pandas as pd
 
 def parse_tags(filename):
     """
@@ -107,3 +109,28 @@ def tag_dict_organiser(dict_of_tags):
     print(journal_terminal_tags)
 
     return all_journal_tags, journal_parent_tags, journal_terminal_tags
+
+
+def generate_pie_chart(filename, tags=[]):
+    """
+    Generate a pie chart of tag distribution from the given file.
+    
+    Args:
+        filename: Path to the plaintext file to parse
+    Returns:
+        A plotly pie chart of tag distribution 
+    """
+    tag_list = parse_tags(filename)
+    tag_counts_dict = get_tag_counts(tag_list)
+
+    if tags:
+        # Filter the tag_counts_dict to include only specified tags
+        tag_counts_dict = {tag: count for tag, count in tag_counts_dict.items() if tag in tags}
+    
+    df = pd.DataFrame.from_dict(tag_counts_dict, orient='index', columns=['No. of Notes'])
+    df = df.reset_index().rename(columns={'index': 'Tag'})
+
+    # Create the pie chart
+    pie_chart = px.pie(df, values='No. of Notes', names='Tag', title='Tag Distribution in Anki Notes')
+    
+    return pie_chart
