@@ -31,16 +31,20 @@ if nontarget_tags == ['']:
 # Buttons to trigger functions
 if st.sidebar.button("Generate Paper Frequencies"):
     st.subheader("Top Paper Frequencies")
-    st.write(generate_paper_frequencies_df(full_path, range_of_references, target_tags=target_tags, nontarget_tags=nontarget_tags))
+    reference_df = convert_string_to_df(generate_paper_frequencies(full_path, range_of_references, target_tags=target_tags, nontarget_tags=nontarget_tags))
+    st.dataframe(reference_df, hide_index=True)
 
 if st.sidebar.button("Generate Textbook Frequencies"):
     st.subheader("Top Textbook Frequencies")
-    st.write(generate_textbook_frequencies(full_path, range_of_references, target_tags=target_tags, nontarget_tags=nontarget_tags))
+    reference_df = convert_string_to_df(generate_textbook_frequencies(full_path, range_of_references, target_tags=target_tags, nontarget_tags=nontarget_tags))
+    st.dataframe(reference_df, hide_index=True)
 
 if st.sidebar.button("Get Papers by Note Range"):
     st.subheader("Papers by Note Range")
-    st.write(get_papers_by_note_range(full_path, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
+    reference_df = convert_string_to_df(get_papers_by_note_range(full_path, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
+    st.dataframe(reference_df, hide_index=True)
 
 if st.sidebar.button("Get Textbooks by Note Range"):
     st.subheader("Textbooks by Note Range")
-    st.write(get_textbooks_by_note_range(full_path, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
+    reference_df = convert_string_to_df(get_textbooks_by_note_range(full_path, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
+    st.dataframe(reference_df, hide_index=True)

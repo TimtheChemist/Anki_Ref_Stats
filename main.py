@@ -20,10 +20,8 @@ nontarget_tags = ["Review"]
 #get_papers_by_note_range(filename, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags)
 
 
-new_df = convert_string_to_df(generate_paper_frequencies(filename, range_of_papers, target_tags, nontarget_tags))
-print(new_df)
 
-#generate_textbook_frequencies(filename, range_of_textbooks, target_tags, nontarget_tags)
+generate_textbook_frequencies(filename, range_of_textbooks, target_tags, nontarget_tags)
 
 """
 tag_list = parse_tags('All_Decks_Cards.txt')

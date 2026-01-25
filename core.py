@@ -30,38 +30,75 @@ def convert_string_to_df(input_string):
     rows = []
     lines = [line.strip() for line in input_string.strip().split('\n') if line.strip()]
     
-    for line in lines:
-        try:
-            # 1. Extract the number at the start (e.g., "37")
-            # Splits at the first "." and takes the first part
-            no_part, rest = line.split('.', 1)
-            
-            # 2. Extract the Title and everything after
-            # Splits at " - DOI: "
-            title, doi_and_notes = rest.split(' - DOI: ', 1)
-            
-            # 3. Separate the DOI from the notes
-            # Splits at " (" to isolate the DOI from the "(22 notes)" part
-            doi, notes_part = doi_and_notes.split(' (', 1)
-            
-            # 4. Extract just the number from the notes (e.g., "22")
-            cited_by = notes_part.replace(' notes)', '').strip()
-            
-            rows.append({
-                "No.": no_part.strip(),
-                "Cited by": cited_by,
-                "Title": title.strip(),
-                "DOI": doi.strip()
-            })
-        except ValueError:
-            # Skip lines that don't match the expected "Number. Title - DOI: DOI (notes)" format
-            continue
+    is_paper = True
+    if " - DOI: " not in lines[0]:
+        is_paper = False
 
-    # Create DataFrame from list of dictionaries
-    df = pd.DataFrame(rows)
+    if is_paper:
+        for line in lines:
+            try:
+                # 1. Extract the number at the start (e.g., "37")
+                # Splits at the first "." and takes the first part
+                no_part, rest = line.split('.', 1)
+                
+                # 2. Extract the Title and everything after
+                # Splits at " - DOI: "
+                title, doi_and_notes = rest.split(' - DOI: ', 1)
+                
+                # 3. Separate the DOI from the notes
+                # Splits at " (" to isolate the DOI from the "(22 notes)" part
+                doi, notes_part = doi_and_notes.split(' (', 1)
+                
+                # 4. Extract just the number from the notes (e.g., "22")
+                notes_written = notes_part.replace(' notes)', '').strip()
+                
+                rows.append({
+                    "No.": no_part.strip(),
+                    "Notes": notes_written,
+                    "Title": title.strip(),
+                    "DOI": doi.strip()
+                })
+
+                # Create DataFrame from list of dictionaries
+                df = pd.DataFrame(rows)
+
+                # Ensure the columns are in your exact requested order
+                df = df[["No.", "Notes", "Title", "DOI"]]
+
+            except ValueError:
+                # Skip lines that don't match the expected "Number. Title - DOI: DOI (notes)" format
+                continue
     
-    # Ensure the columns are in your exact requested order
-    df = df[["No.", "Cited by", "Title", "DOI"]]
+    else:
+        for line in lines:
+            try:
+                # 1. Extract the number at the start (e.g., "37")
+                # Splits at the first "." and takes the first part
+                no_part, rest = line.split('.', 1)
+                
+                # 2. Extract the Title and everything after
+                # Splits at " - DOI: "
+                title, notes_part = rest.rsplit(' (', 1)
+                
+                # 3. Extract just the number from the notes (e.g., "22")
+                notes_written = notes_part.replace(' notes)', '').strip()
+                
+                rows.append({
+                    "No.": no_part.strip(),
+                    "Notes": notes_written,
+                    "Title": title.strip(),
+                })
+
+                # Create DataFrame from list of dictionaries
+                df = pd.DataFrame(rows)
+
+                # Ensure the columns are in your exact requested order
+                df = df[["No.", "Notes", "Title"]]
+
+            except ValueError:
+                # Skip lines that don't match the expected "Number. Title - DOI: DOI (notes)" format
+                continue
+
     
     return df
 
