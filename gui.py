@@ -14,17 +14,17 @@ path = st.sidebar.text_input("Enter the file path:", r'"/home/timot/workspace/gi
 filename = st.sidebar.text_input("Enter the plaintext file name (without extension):", 'All_Decks_Cards.txt')
 full_path = os.path.join(path.strip('"'), filename)
 
-range_of_references = st.sidebar.text_input("Enter the range of references (by occurrence): ", "1, 10").split(",")
+range_of_references = st.sidebar.text_input("Enter the range of references (by occurrence): ", "1, 20").split(",")
 range_of_references = (int(range_of_references[0]), int(range_of_references[1]))
 
-range_of_notes = st.sidebar.text_input("Enter the range of notes for filtering textbooks/papers: ", "1, 30").split(",")
+range_of_notes = st.sidebar.text_input("Enter the range of notes for filtering textbooks/papers: ", "10, 30").split(",")
 range_of_notes = (int(range_of_notes[0]), int(range_of_notes[1]))
 
 target_tags = st.sidebar.text_input("Enter the tags for matching: ", "Review").split(",")
 if target_tags == ['']:
     target_tags = []
 
-nontarget_tags = st.sidebar.text_input("Enter the tags for exclusion: ", "Photochemistry").split(",")
+nontarget_tags = st.sidebar.text_input("Enter the tags for exclusion: ", "").split(",")
 if nontarget_tags == ['']:
     nontarget_tags = []
 
