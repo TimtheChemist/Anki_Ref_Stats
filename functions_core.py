@@ -1,6 +1,5 @@
 from functions_doi import parse_doi, get_list_of_papers, map_doi_to_title, get_range_of_papers
 from functions_textbook import parse_textbook, get_list_of_textbooks, get_range_of_textbooks
-from functions_stats import parse_tags, get_tag_counts, tag_dict_organiser
 import re
 import pandas as pd
 

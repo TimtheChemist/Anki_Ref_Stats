@@ -22,11 +22,10 @@ else:
     path = st.sidebar.text_input("Enter the file path:", r'"/home/timot/workspace/github.com/Anki_Ref_Stats"')
     filename = st.sidebar.text_input("Enter the plaintext file name (without extension):", 'All_Decks_Cards')
 
-# Other input fields for user
 if not (path == "" or filename == ""):
     file_input = os.path.join(path.strip('"'), filename + ".txt")
 
-
+# Other input fields for user
 range_of_references = st.sidebar.text_input("Enter the range of references (e.g., enter '1, 20' if you want to see the 1st to 20th most frequently cited references): ", "1, 20").split(",")
 range_of_references = (int(range_of_references[0]), int(range_of_references[1]))
 

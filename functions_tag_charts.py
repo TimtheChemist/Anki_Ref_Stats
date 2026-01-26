@@ -9,7 +9,7 @@ def parse_tags(file_input):
     Parse a plaintext file and extract matches for tags.
     
     Args:
-        filename: Path to the plaintext file to parse
+        file_input: Path to the plaintext file to parse or a file object
     
     Returns:
         A list of of all tags (including duplicates) found in the file
@@ -62,11 +62,10 @@ def parse_tags(file_input):
 
 def get_tag_counts(list_of_tags):
     """
-    Find the top n most frequently occurring textbooks from a list.
+    Find the top n most frequently occurring tags from a list of a tags.
     
     Args:
         list_of_tags: A list of tags (strings) to analyse
-        n: Number of top occurrences to return
     
     Returns:
         A dict containing tag-count key-value pairs sorted by frequency in descending order
@@ -90,8 +89,8 @@ def get_tag_counts(list_of_tags):
     return dict_of_tags
 
 
-def tag_dict_organiser(filename):
-    tag_list = parse_tags(filename)
+def tag_dict_organiser(file_input):
+    tag_list = parse_tags(file_input)
     tag_counts_dict = get_tag_counts(tag_list)
 
     all_journal_tags = {}
@@ -126,6 +125,9 @@ def generate_pie_chart(file_input, tags=[], number=""):
     
     Args:
         file_input: Path to the plaintext file to parse or a file object
+        tags: List of tags to include in the pie chart. If empty, include all tags.
+        number: Maximum number of tags to display. If empty, display all tags.
+
     Returns:
         A plotly pie chart of tag distribution 
     """
@@ -156,6 +158,9 @@ def generate_bar_chart(file_input, tags=[], number=""):
     
     Args:
         file_input: Path to the plaintext file to parse or a file object
+        tags: List of tags to include in the bar chart. If empty, include all tags.
+        number: Maximum number of tags to display. If empty, display all tags.
+
     Returns:
         A plotly bar chart of tag distribution 
     """

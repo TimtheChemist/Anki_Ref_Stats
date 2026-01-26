@@ -1,4 +1,4 @@
-from functions_stats import parse_tags, get_tag_counts, tag_dict_organiser, generate_pie_chart, generate_bar_chart
+from functions_tag_charts import parse_tags, get_tag_counts, tag_dict_organiser, generate_pie_chart, generate_bar_chart
 from functions_core import generate_paper_frequencies, generate_textbook_frequencies, get_textbooks_by_note_range, get_papers_by_note_range, convert_string_to_df
 
 import os
@@ -24,10 +24,10 @@ else:
     path = st.sidebar.text_input("Enter the file path:", r'"/home/timot/workspace/github.com/Anki_Ref_Stats"')
     filename = st.sidebar.text_input("Enter the plaintext file name (without extension):", 'All_Decks_Cards')
 
-# Other input fields for user
 if not (path == "" or filename == ""):
     file_input = os.path.join(path.strip('"'), filename + ".txt")
 
+# Other input fields for user
 number_of_tags = st.sidebar.text_input("Enter the max number of tags to view: ", "10")
 try: 
     number_of_tags = int(number_of_tags)
