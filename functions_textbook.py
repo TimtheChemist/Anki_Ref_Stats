@@ -7,7 +7,7 @@ def parse_textbook(file_input, target_tags = [], nontarget_tags = []):
     Parse a plaintext file and extract matches for textbook references.
     
     Args:
-        filename: Path to the plaintext file to parse
+        file_input: Path to the plaintext file to parse or a file object
         target_tags: List of tags to filter references. Only references containing all specified tags will be included.
     
     Returns:

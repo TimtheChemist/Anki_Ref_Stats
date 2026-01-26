@@ -4,7 +4,7 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 
-def parse_tags(filename):
+def parse_tags(file_input):
     """
     Parse a plaintext file and extract matches for tags.
     
@@ -19,28 +19,34 @@ def parse_tags(filename):
     header_pattern = r"<strong>\s*Tags:\s*<\/strong>"
 
     try:
-        with open(filename, 'r', encoding='utf-8') as file:
-            # We iterate line by line for maximum simplicity and memory efficiency
-            lines = file.readlines()
+         # If it's a path, open it; if it's an uploaded file, just read it
+        if isinstance(file_input, str):
+            with open(file_input, 'r', encoding='utf-8') as file:
+                lines = file.readlines()
+        else:
+            # We read the bytes, decode to string, then split into lines
+            content = file_input.getvalue().decode("utf-8")
+            lines = content.splitlines()
+
             
-            for i in range(len(lines)):
-                # If we find the "Tags:" header...
-                if re.search(header_pattern, lines[i]):
-                    # ...check if there is a next line available
-                    if i + 1 < len(lines):
-                        tag_line = lines[i+1].strip()
-                        
-                        # 1. Strip any unexpected HTML tags (safety measure)
-                        clean_line = re.sub(r'<[^>]+>', '', tag_line)
-                        
-                        # 2. Split by whitespace to get individual tags
-                        # This handles "Complex HTE" -> ["Complex", "HTE"]
-                        # It also handles "Journal::ACS::OrganicLetters" as one tag
-                        clean_line = clean_line.replace('"', "")
-                        individual_tags = clean_line.split()
-                        
-                        # 3. Add to our master list
-                        list_of_tags.extend(individual_tags)
+        for i in range(len(lines)):
+            # If we find the "Tags:" header...
+            if re.search(header_pattern, lines[i]):
+                # ...check if there is a next line available
+                if i + 1 < len(lines):
+                    tag_line = lines[i+1].strip()
+                    
+                    # 1. Strip any unexpected HTML tags (safety measure)
+                    clean_line = re.sub(r'<[^>]+>', '', tag_line)
+                    
+                    # 2. Split by whitespace to get individual tags
+                    # This handles "Complex HTE" -> ["Complex", "HTE"]
+                    # It also handles "Journal::ACS::OrganicLetters" as one tag
+                    clean_line = clean_line.replace('"', "")
+                    individual_tags = clean_line.split()
+                    
+                    # 3. Add to our master list
+                    list_of_tags.extend(individual_tags)
           
         print(f"Total tag instances found: {len(list_of_tags)}")
         print(f"Unique tags found: {len(set(list_of_tags))}")
@@ -114,16 +120,16 @@ def tag_dict_organiser(filename):
     return all_journal_tags, journal_parent_tags, journal_terminal_tags
 
 
-def generate_pie_chart(filename, tags=[], number=""):
+def generate_pie_chart(file_input, tags=[], number=""):
     """
     Generate a pie chart of tag distribution from the given file.
     
     Args:
-        filename: Path to the plaintext file to parse
+        file_input: Path to the plaintext file to parse or a file object
     Returns:
         A plotly pie chart of tag distribution 
     """
-    tag_list = parse_tags(filename)
+    tag_list = parse_tags(file_input)
     tag_counts_dict = get_tag_counts(tag_list)
 
     if tags:
@@ -139,21 +145,21 @@ def generate_pie_chart(filename, tags=[], number=""):
     df = df.reset_index().rename(columns={'index': 'Tag'})
 
     # Create the pie chart
-    pie_chart = px.pie(df, values='No. of Notes', names='Tag', title='Tag Distribution in Anki Notes')
+    pie_chart = px.pie(df, values='No. of Notes', names='Tag', title='Tag Distribution in Anki Note Collection')
     
     return pie_chart
 
 
-def generate_bar_chart(filename, tags=[], number=""):
+def generate_bar_chart(file_input, tags=[], number=""):
     """
     Generate a bar chart of tag distribution from the given file.
     
     Args:
-        filename: Path to the plaintext file to parse
+        file_input: Path to the plaintext file to parse or a file object
     Returns:
         A plotly bar chart of tag distribution 
     """
-    tag_list = parse_tags(filename)
+    tag_list = parse_tags(file_input)
     tag_counts_dict = get_tag_counts(tag_list)
 
     if tags:

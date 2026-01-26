@@ -8,11 +8,25 @@ import plotly.express as px
 # Streamlit App
 st.title("Analyse Tag Distribution")
 
-# Input fields for user
+# Create the GUI uploader
+file_input = st.file_uploader("Choose a plaintext file", type=["txt", "md"])
 st.sidebar.header("Input Parameters")
-path = st.sidebar.text_input("Enter the file path:", r'"/home/timot/workspace/github.com/Anki_Ref_Stats"')
-filename = st.sidebar.text_input("Enter the plaintext file name (without extension):", 'All_Decks_Cards')
-full_path = os.path.join(path.strip('"'), filename + ".txt")
+
+if file_input is not None:
+    st.success("File uploaded successfully!")
+
+    # Remove default values in file path input fields
+    filename = st.sidebar.text_input("Enter the plaintext file name (without extension):")
+    path = st.sidebar.text_input("Enter the file path:")
+
+else:
+    # Add default values for file path input fields
+    path = st.sidebar.text_input("Enter the file path:", r'"/home/timot/workspace/github.com/Anki_Ref_Stats"')
+    filename = st.sidebar.text_input("Enter the plaintext file name (without extension):", 'All_Decks_Cards')
+
+# Other input fields for user
+if not (path == "" or filename == ""):
+    file_input = os.path.join(path.strip('"'), filename + ".txt")
 
 number_of_tags = st.sidebar.text_input("Enter the max number of tags to view: ", "10")
 try: 
@@ -28,11 +42,11 @@ if target_tags == ['']:
 # Display in Streamlit
 if st.sidebar.button("Generate Pie Chart"):
     st.subheader(f"Showing distribution of Tags")
-    pie_chart = generate_pie_chart(full_path, tags=target_tags, number=number_of_tags)
+    pie_chart = generate_pie_chart(file_input, tags=target_tags, number=number_of_tags)
     st.plotly_chart(pie_chart, use_container_width=True)
 
 
 if st.sidebar.button("Generate Bar Chart"):
     st.subheader(f"Showing distribution of Tags")
-    bar_chart = generate_bar_chart(full_path, tags=target_tags, number=number_of_tags)
+    bar_chart = generate_bar_chart(file_input, tags=target_tags, number=number_of_tags)
     st.plotly_chart(bar_chart, use_container_width=True)
