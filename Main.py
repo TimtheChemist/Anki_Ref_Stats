@@ -6,6 +6,18 @@ import streamlit as st
 # Streamlit App
 st.title("Anki Reference Parser")
 
+# Create the GUI uploader
+uploaded_file = st.file_uploader("Choose a plaintext file", type=["txt", "md"])
+
+if uploaded_file is not None:
+    # Option A: Read the content directly as a string
+    string_data = uploaded_file.getvalue().decode("utf-8")
+    
+    # Option B: Pass the file object to your functions
+    # Most Python functions that read files (like open()) 
+    # will also accept this uploaded_file object directly.
+    st.success("File uploaded successfully!")
+
 # Input fields for user
 st.sidebar.header("Input Parameters")
 path = st.sidebar.text_input("Enter the file path:", r'"/home/timot/workspace/github.com/Anki_Ref_Stats"')
@@ -41,7 +53,7 @@ if st.sidebar.button("Get Papers by Note Range"):
     if range_of_notes[0] > range_of_notes[1]:
         st.error("Error: The first number in the range must be less than or equal to the second number.")
 
-    if range_of_notes[0] == range_of_notes[1]:
+    elif range_of_notes[0] == range_of_notes[1]:
         st.subheader(f"Showing papers that appear in exactly {range_of_notes[0]} notes")
         reference_df = convert_string_to_df(get_papers_by_note_range(full_path, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
         st.dataframe(reference_df, hide_index=True)
@@ -55,7 +67,7 @@ if st.sidebar.button("Get Textbooks by Note Range"):
     if range_of_notes[0] > range_of_notes[1]:
         st.error("Error: The first number in the range must be less than or equal to the second number.")
     
-    if range_of_notes[0] == range_of_notes[1]:
+    elif range_of_notes[0] == range_of_notes[1]:
         st.subheader(f"Showing textbooks that appear in exactly {range_of_notes[0]} notes")
         reference_df = convert_string_to_df(get_textbooks_by_note_range(full_path, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
         st.dataframe(reference_df, hide_index=True)
