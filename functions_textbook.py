@@ -2,7 +2,7 @@ from collections import Counter
 import re
 
 
-def parse_textbook(filename, target_tags = [], nontarget_tags = []):
+def parse_textbook(file_input, target_tags = [], nontarget_tags = []):
     """
     Parse a plaintext file and extract matches for textbook references.
     
@@ -25,9 +25,14 @@ def parse_textbook(filename, target_tags = [], nontarget_tags = []):
     tag_pattern = r"<strong>\s*Tags:\s*<\/strong>\s*(.+?)(?=\s*<hr>|$)"
 
     try:
-        with open(filename, 'r', encoding='utf-8') as file:
-            content = file.read()
-            cards = re.split(card_separator, content)
+        # If it's a path, open it; if it's an uploaded file, just read it
+        if isinstance(file_input, str):
+            with open(file_input, 'r', encoding='utf-8') as file:
+                content = file.read()
+        else:
+            content = file_input.getvalue().decode("utf-8")
+        
+        cards = re.split(card_separator, content)
 
         # Use finditer to loop through every match found in the content
         for card in cards:
