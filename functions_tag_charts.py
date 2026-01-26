@@ -98,9 +98,9 @@ def tag_dict_organiser(file_input):
     journal_terminal_tags = {}
     list_of_parent_journals = ["Journal::ACS", "Journal::Elsevier", "Journal::Wiley", "Journal::SpringerNat", "Journal::Thieme"]
 
-    for tag in dict_of_tags:
+    for tag in tag_counts_dict:
         if "Journal::" in tag:
-            all_journal_tags[tag] = dict_of_tags[tag]
+            all_journal_tags[tag] = tag_counts_dict[tag]
 
     for tag in all_journal_tags:
         if tag in list_of_parent_journals:
@@ -112,11 +112,10 @@ def tag_dict_organiser(file_input):
         if tag in list_of_parent_journals:
             journal_parent_tags[tag] = all_journal_tags[tag]
 
-    print(all_journal_tags)
-    print(journal_parent_tags)
-    print(journal_terminal_tags)
+  
+    string_of_terminal_journals = ",".join(journal_terminal_tags.keys())
 
-    return all_journal_tags, journal_parent_tags, journal_terminal_tags
+    return string_of_terminal_journals
 
 
 def generate_pie_chart(file_input, tags=[], number=""):
