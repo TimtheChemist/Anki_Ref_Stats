@@ -38,11 +38,29 @@ if st.sidebar.button("Generate Textbook Frequencies"):
     st.dataframe(reference_df, hide_index=True)
 
 if st.sidebar.button("Get Papers by Note Range"):
-    st.subheader(f"Showing Papers that Appear in {range_of_notes[0]} to {range_of_notes[1]} Notes")
-    reference_df = convert_string_to_df(get_papers_by_note_range(full_path, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
-    st.dataframe(reference_df, hide_index=True)
+    if range_of_notes[0] > range_of_notes[1]:
+        st.error("Error: The first number in the range must be less than or equal to the second number.")
+
+    if range_of_notes[0] == range_of_notes[1]:
+        st.subheader(f"Showing papers that appear in exactly {range_of_notes[0]} notes")
+        reference_df = convert_string_to_df(get_papers_by_note_range(full_path, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
+        st.dataframe(reference_df, hide_index=True)
+
+    else:
+        st.subheader(f"Showing papers that appear in {range_of_notes[0]} to {range_of_notes[1]} notes")
+        reference_df = convert_string_to_df(get_papers_by_note_range(full_path, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
+        st.dataframe(reference_df, hide_index=True)
 
 if st.sidebar.button("Get Textbooks by Note Range"):
-    st.subheader(f"Showing Textbooks that Appear in {range_of_notes[0]} to {range_of_notes[1]} Notes")
-    reference_df = convert_string_to_df(get_textbooks_by_note_range(full_path, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
-    st.dataframe(reference_df, hide_index=True)
+    if range_of_notes[0] > range_of_notes[1]:
+        st.error("Error: The first number in the range must be less than or equal to the second number.")
+    
+    if range_of_notes[0] == range_of_notes[1]:
+        st.subheader(f"Showing textbooks that appear in exactly {range_of_notes[0]} notes")
+        reference_df = convert_string_to_df(get_textbooks_by_note_range(full_path, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
+        st.dataframe(reference_df, hide_index=True)
+
+    else:
+        st.subheader(f"Showing textbooks that appear in {range_of_notes[0]} to {range_of_notes[1]} notes")
+        reference_df = convert_string_to_df(get_textbooks_by_note_range(full_path, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
+        st.dataframe(reference_df, hide_index=True)

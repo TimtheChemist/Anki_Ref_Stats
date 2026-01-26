@@ -14,7 +14,7 @@ path = st.sidebar.text_input("Enter the file path:", r'"/home/timot/workspace/gi
 filename = st.sidebar.text_input("Enter the plaintext file name (without extension):", 'All_Decks_Cards')
 full_path = os.path.join(path.strip('"'), filename + ".txt")
 
-number_of_tags = st.sidebar.text_input("Enter the desired number of tags to view: ", "10")
+number_of_tags = st.sidebar.text_input("Enter the max number of tags to view: ", "10")
 try: 
     number_of_tags = int(number_of_tags)
 except:
