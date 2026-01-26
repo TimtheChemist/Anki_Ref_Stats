@@ -143,3 +143,40 @@ def generate_pie_chart(filename, tags=[], number=""):
     
     return pie_chart
 
+
+def generate_bar_chart(filename, tags=[], number=""):
+    """
+    Generate a bar chart of tag distribution from the given file.
+    
+    Args:
+        filename: Path to the plaintext file to parse
+    Returns:
+        A plotly bar chart of tag distribution 
+    """
+    tag_list = parse_tags(filename)
+    tag_counts_dict = get_tag_counts(tag_list)
+
+    if tags:
+        # Convert your target tags to lowercase once for efficiency
+        tags = {t.lower() for t in tags}
+        # Filter the tag_counts_dict to include only specified tags
+        tag_counts_dict = {tag: count for tag, count in tag_counts_dict.items() if tag.lower() in tags}
+    
+    if isinstance(number, int):
+        tag_counts_dict = dict(Counter(tag_counts_dict).most_common(number))
+
+    df = pd.DataFrame.from_dict(tag_counts_dict, orient='index', columns=['No. of Notes'])
+    df = df.reset_index().rename(columns={'index': 'Tag'})
+
+    # Create the bar chart
+    bar_chart = px.bar(
+        df, 
+        x='Tag', 
+        y='No. of Notes', 
+        title='Tag Distribution in Anki Note Collection',
+        labels={'No. of Notes': 'Number of Notes', 'Tag': 'Category'},
+        color='No. of Notes', # Optional: adds a color gradient
+        color_continuous_scale=px.colors.sequential.Viridis
+    )
+    
+    return bar_chart
