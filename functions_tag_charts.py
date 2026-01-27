@@ -53,7 +53,7 @@ def parse_tags(file_input):
         return list_of_tags
 
     except FileNotFoundError:
-        print(f"Error: File '{filename}' not found")
+        print(f"Error: File '{file_input}' not found")
     except re.error as e:
         print(f"Error: Invalid regex pattern - {e}")
     except Exception as e:
