@@ -19,7 +19,9 @@ def generate_paper_frequencies(filename, ref_range, target_tags=[], nontarget_ta
         Returns the top n to m DOI's with their corresponding titles and counts
     """
     list_of_paper_references = parse_doi(filename, target_tags = target_tags, nontarget_tags = nontarget_tags)
-
+    if list_of_paper_references == None:
+        return ""
+    
     doi_to_title_dict = map_doi_to_title(list_of_paper_references)
 
     full_reference_list = get_list_of_papers(list_of_paper_references)
@@ -28,15 +30,15 @@ def generate_paper_frequencies(filename, ref_range, target_tags=[], nontarget_ta
 
 
 def convert_string_to_df(input_string):
+    if not input_string or input_string.strip() == "":
+        return pd.DataFrame()  # Return an EMPTY DataFrame instead of None
+
     rows = []
+    df = pd.DataFrame()
     lines = [line.strip() for line in input_string.strip().split('\n') if line.strip()]
     
     is_paper = True
 
-    if input_string == "":
-        st.error("❌ No references found that match specified criteria.")
-        return
-        
     if " - DOI: " not in lines[0]:
         is_paper = False
 
@@ -70,6 +72,8 @@ def convert_string_to_df(input_string):
 
                 # Ensure the columns are in your exact requested order
                 df = df[["No.", "Notes", "Title", "DOI"]]
+                if not rows:
+                    return pd.DataFrame()
 
             except ValueError:
                 # Skip lines that don't match the expected "Number. Title - DOI: DOI (notes)" format
@@ -100,7 +104,8 @@ def convert_string_to_df(input_string):
 
                 # Ensure the columns are in your exact requested order
                 df = df[["No.", "Notes", "Title"]]
-                
+                if not rows:
+                    return pd.DataFrame()
 
             except ValueError:
                 # Skip lines that don't match the expected "Number. Title - DOI: DOI (notes)" format
@@ -201,6 +206,7 @@ def get_papers_by_note_range(filename, range_of_notes, target_tags=[], nontarget
 
 
 def convert_df_to_excel(df):
+
     output = io.BytesIO()
     # Use XlsxWriter as the engine
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
