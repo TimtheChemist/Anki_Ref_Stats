@@ -159,3 +159,4 @@ def get_range_of_papers(ref_range, sorted_references_list, dict_of_references):
         message += f"{rank+1}. {title} - DOI: {sorted_references_list[rank][0]} ({sorted_references_list[rank][1]} notes)\n"
     
     return message
+

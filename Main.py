@@ -1,4 +1,4 @@
-from functions_core import generate_paper_frequencies, generate_textbook_frequencies, get_textbooks_by_note_range, get_papers_by_note_range, convert_string_to_df
+from functions_core import generate_paper_frequencies, generate_textbook_frequencies, get_textbooks_by_note_range, get_papers_by_note_range, convert_string_to_df, convert_df_to_excel
 import os
 import streamlit as st
 
@@ -46,10 +46,26 @@ if st.sidebar.button("Generate Paper Frequencies"):
     reference_df = convert_string_to_df(generate_paper_frequencies(file_input, range_of_references, target_tags=target_tags, nontarget_tags=nontarget_tags))
     st.dataframe(reference_df, hide_index=True)
 
+    excel_data = convert_df_to_excel(reference_df)
+    st.download_button(
+        label="Download Formatted Excel",
+        data=excel_data,
+        file_name="anki_stats_formatted.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+
 if st.sidebar.button("Generate Textbook Frequencies"):
     st.subheader(f"Showing the Top {range_of_references[0]} to {range_of_references[1]} Textbooks")
     reference_df = convert_string_to_df(generate_textbook_frequencies(file_input, range_of_references, target_tags=target_tags, nontarget_tags=nontarget_tags))
     st.dataframe(reference_df, hide_index=True)
+
+    excel_data = convert_df_to_excel(reference_df)
+    st.download_button(
+        label="Download Formatted Excel",
+        data=excel_data,
+        file_name="anki_stats_formatted.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
 
 if st.sidebar.button("Get Papers by Note Range"):
     if range_of_notes[0] > range_of_notes[1]:

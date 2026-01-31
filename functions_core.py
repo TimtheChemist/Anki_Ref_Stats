@@ -1,6 +1,7 @@
 from functions_doi import parse_doi, get_list_of_papers, map_doi_to_title, get_range_of_papers
 from functions_textbook import parse_textbook, get_list_of_textbooks, get_range_of_textbooks
 import re
+import io
 import pandas as pd
 
 def generate_paper_frequencies(filename, ref_range, target_tags=[], nontarget_tags=[]):
@@ -190,3 +191,49 @@ def get_papers_by_note_range(filename, range_of_notes, target_tags=[], nontarget
         print(f"Error: Invalid regex pattern - {e}")
     except Exception as e:
         print(f"Error reading file: {e}")
+
+
+
+def convert_df_to_excel(df):
+    output = io.BytesIO()
+    # Use XlsxWriter as the engine
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        df.to_excel(writer, index=False, sheet_name='Anki_Stats')
+        
+        # Access the xlsxwriter workbook and worksheet objects
+        workbook  = writer.book
+        worksheet = writer.sheets['Anki_Stats']
+
+        # Define a format (Bold, Background Color, Border)
+        header_format = workbook.add_format({
+            'bold': True,
+            'text_wrap': True,
+            'valign': 'vcenter', # Vertically centered
+            'align': 'center',  # Horizontally centered
+            'fg_color': '#FFBF00',
+            'border': 1
+        })
+
+        # Apply the format to the headers manually
+        for col_num, value in enumerate(df.columns.values):
+            worksheet.write(0, col_num, value, header_format)
+            
+        # Optional: Set column width to make it readable
+        worksheet.set_column('A:A', 5)
+        worksheet.set_column('C:C', 5)
+        worksheet.set_column('C:C', 110)
+        worksheet.set_column('D:D', 25)
+
+        # 1. Create the format for the data cells
+        center_data_format = workbook.add_format({
+            'align': 'center',
+            'valign': 'vcenter'
+        })
+
+        # 2. Apply it to Columns A and B
+        # Syntax: set_column(first_col, last_col, width, cell_format)
+        # We use '0:1' for Columns A and B. 
+        # Pass None for width if you want to keep the default width.
+        worksheet.set_column('A:B', None, center_data_format)
+
+    return output.getvalue()
