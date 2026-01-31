@@ -193,7 +193,6 @@ def get_papers_by_note_range(filename, range_of_notes, target_tags=[], nontarget
         print(f"Error reading file: {e}")
 
 
-
 def convert_df_to_excel(df):
     output = io.BytesIO()
     # Use XlsxWriter as the engine
@@ -218,21 +217,20 @@ def convert_df_to_excel(df):
         for col_num, value in enumerate(df.columns.values):
             worksheet.write(0, col_num, value, header_format)
             
-        # Optional: Set column width to make it readable
+        # Set column widths
         worksheet.set_column('A:A', 5)
         worksheet.set_column('C:C', 5)
         worksheet.set_column('C:C', 110)
         worksheet.set_column('D:D', 25)
 
-        # 1. Create the format for the data cells
+        # Create the format for the data cells of Columns A and B
         center_data_format = workbook.add_format({
             'align': 'center',
             'valign': 'vcenter'
         })
 
-        # 2. Apply it to Columns A and B
+        # Apply the above format to Columns A and B
         # Syntax: set_column(first_col, last_col, width, cell_format)
-        # We use '0:1' for Columns A and B. 
         # Pass None for width if you want to keep the default width.
         worksheet.set_column('A:B', None, center_data_format)
 

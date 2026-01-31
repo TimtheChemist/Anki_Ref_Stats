@@ -18,7 +18,7 @@ if "path" not in st.session_state:
 if "filename" not in st.session_state:
     st.session_state.filename = 'All_Decks_Cards'
 if "number_of_tags" not in st.session_state:
-    st.session_state.number_of_tags = "10"
+    st.session_state.number_of_tags = "15"
 if "target_tags" not in st.session_state:
     st.session_state.target_tags = "Review,Mechanism,Photochemistry"
 
