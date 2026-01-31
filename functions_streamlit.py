@@ -13,7 +13,7 @@ def download_excel_button(excel_data):
 
 def run_safe_analysis(func, file_input, range_tuple, target_tags, nontarget_tags):
     """
-    Centralized runner to validate input, execute parsing, and handle UI feedback.
+    Centralised runner to validate input, execute parsing, and handle UI feedback.
     """
     # 1. Validate File Input
     if file_input is None:
@@ -22,7 +22,7 @@ def run_safe_analysis(func, file_input, range_tuple, target_tags, nontarget_tags
 
     # 2. Validate Range Logic
     if not isinstance(range_tuple, tuple) or len(range_tuple) != 2:
-        st.error("❌ Invalid range format.")
+        st.error("❌ Invalid range format")
         return None
         
     if range_tuple[0] > range_tuple[1]:
@@ -36,11 +36,11 @@ def run_safe_analysis(func, file_input, range_tuple, target_tags, nontarget_tags
             df = convert_string_to_df(raw_result)
 
             if df is None or df.empty:
-                st.warning("⚠️ No references found that match the specified criteria.")
+                st.warning("⚠️ No references were found that match the specified criteria.")
                 return None
                 
             return df
             
     except Exception as e:
-        st.error(f"⚠️ An unexpected error occurred: {e}")
+        st.error(f"❌ An unexpected error occurred: {e}")
         return None

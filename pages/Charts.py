@@ -42,7 +42,7 @@ number_of_tags = st.sidebar.text_input("Enter the max number of tags to view: ",
 try: 
     number_of_tags = int(number_of_tags)
 except (ValueError, IndexError):
-    st.sidebar.error("⚠️ Invalid tag number. Please enter a valid number.")
+    st.sidebar.error("❌ Invalid tag number. Please enter a valid number.")
     range_of_tags = 20 # Provide a safe fallback default
 
 target_tags = st.sidebar.text_input("Enter tags to include in charts: ", st.session_state.target_tags).split(",")
