@@ -117,41 +117,53 @@ if st.sidebar.button("Get Papers by Note Range"):
         st.error("❌ Please upload a file or provide a valid file path first.")
     elif not isinstance(range_of_references, tuple):
         st.error("❌ Invalid range format")
+    
     else:
-        if range_of_notes[0] > range_of_notes[1]:
-            st.error("❌ The first number in the range must be less than or equal to the second number.")
-
-        elif range_of_notes[0] == range_of_notes[1]:
-            st.subheader(f"Showing papers that appear in exactly {range_of_notes[0]} notes")
-            reference_df = convert_string_to_df(get_papers_by_note_range(file_input, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
-            st.dataframe(reference_df, hide_index=True)
+        reference_df = convert_string_to_df(generate_textbook_frequencies(file_input, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
+        if reference_df.empty:
+            st.warning("⚠️ No references found that match the specified criteria.")
 
         else:
-            st.subheader(f"Showing papers that appear in {range_of_notes[0]} to {range_of_notes[1]} notes")
-            reference_df = convert_string_to_df(get_papers_by_note_range(file_input, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
-            st.dataframe(reference_df, hide_index=True)
-            excel_data = convert_df_to_excel(reference_df)
-            download_excel_button(excel_data)
+            if range_of_notes[0] > range_of_notes[1]:
+                st.error("❌ The first number in the range must be less than or equal to the second number.")
+
+            elif range_of_notes[0] == range_of_notes[1]:
+                st.subheader(f"Showing papers that appear in exactly {range_of_notes[0]} notes")
+                reference_df = convert_string_to_df(get_papers_by_note_range(file_input, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
+                st.dataframe(reference_df, hide_index=True)
+
+            else:
+                st.subheader(f"Showing papers that appear in {range_of_notes[0]} to {range_of_notes[1]} notes")
+                reference_df = convert_string_to_df(get_papers_by_note_range(file_input, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
+                st.dataframe(reference_df, hide_index=True)
+                excel_data = convert_df_to_excel(reference_df)
+                download_excel_button(excel_data)
 
 if st.sidebar.button("Get Textbooks by Note Range"):
     if file_input is None:
         st.error("❌ Please upload a file or provide a valid file path first.")
     elif not isinstance(range_of_references, tuple):
         st.error("❌ Invalid range format.")
+   
     else:
-        if range_of_notes[0] > range_of_notes[1]:
-            st.error("❌ The first number in the range must be less than or equal to the second number.")
+        reference_df = convert_string_to_df(generate_textbook_frequencies(file_input, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
+        if reference_df.empty:
+            st.warning("⚠️ No references found that match the specified criteria.")
         
-        elif range_of_notes[0] == range_of_notes[1]:
-            st.subheader(f"Showing textbooks that appear in exactly {range_of_notes[0]} notes")
-            reference_df = convert_string_to_df(get_textbooks_by_note_range(file_input, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
-            st.dataframe(reference_df, hide_index=True)
-            excel_data = convert_df_to_excel(reference_df)
-            download_excel_button(excel_data)
-
         else:
-            st.subheader(f"Showing textbooks that appear in {range_of_notes[0]} to {range_of_notes[1]} notes")
-            reference_df = convert_string_to_df(get_textbooks_by_note_range(file_input, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
-            st.dataframe(reference_df, hide_index=True)
-            excel_data = convert_df_to_excel(reference_df)
-            download_excel_button(excel_data)
+            if range_of_notes[0] > range_of_notes[1]:
+                st.error("❌ The first number in the range must be less than or equal to the second number.")
+            
+            elif range_of_notes[0] == range_of_notes[1]:
+                st.subheader(f"Showing textbooks that appear in exactly {range_of_notes[0]} notes")
+                reference_df = convert_string_to_df(get_textbooks_by_note_range(file_input, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
+                st.dataframe(reference_df, hide_index=True)
+                excel_data = convert_df_to_excel(reference_df)
+                download_excel_button(excel_data)
+
+            else:
+                st.subheader(f"Showing textbooks that appear in {range_of_notes[0]} to {range_of_notes[1]} notes")
+                reference_df = convert_string_to_df(get_textbooks_by_note_range(file_input, range_of_notes, target_tags=target_tags, nontarget_tags=nontarget_tags))
+                st.dataframe(reference_df, hide_index=True)
+                excel_data = convert_df_to_excel(reference_df)
+                download_excel_button(excel_data)
