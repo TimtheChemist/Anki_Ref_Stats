@@ -1,6 +1,7 @@
 
 from collections import Counter
 import re
+import streamlit as st
 
 
 def parse_doi(file_input, target_tags = [], nontarget_tags = []):
@@ -66,6 +67,7 @@ def parse_doi(file_input, target_tags = [], nontarget_tags = []):
 
         # Display results for verification
         if not list_of_references:
+            st.error("❌ No references found that match specified criteria.")
             print("No references found.")
 
         # Remove Synfacts references (which are duplicated with the original paper) and buggy DOIs

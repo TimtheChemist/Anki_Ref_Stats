@@ -3,6 +3,7 @@ from functions_textbook import parse_textbook, get_list_of_textbooks, get_range_
 import re
 import io
 import pandas as pd
+import streamlit as st
 
 def generate_paper_frequencies(filename, ref_range, target_tags=[], nontarget_tags=[]):
     """
@@ -15,7 +16,7 @@ def generate_paper_frequencies(filename, ref_range, target_tags=[], nontarget_ta
         nontarget_tags: List of tags that must not be present in a reference
     
     Returns:
-        Returns (and prints) the top n to m DOI's with their corresponding titles and counts
+        Returns the top n to m DOI's with their corresponding titles and counts
     """
     list_of_paper_references = parse_doi(filename, target_tags = target_tags, nontarget_tags = nontarget_tags)
 
@@ -31,6 +32,11 @@ def convert_string_to_df(input_string):
     lines = [line.strip() for line in input_string.strip().split('\n') if line.strip()]
     
     is_paper = True
+
+    if input_string == "":
+        st.error("❌ No references found that match specified criteria.")
+        return
+        
     if " - DOI: " not in lines[0]:
         is_paper = False
 
@@ -94,6 +100,7 @@ def convert_string_to_df(input_string):
 
                 # Ensure the columns are in your exact requested order
                 df = df[["No.", "Notes", "Title"]]
+                
 
             except ValueError:
                 # Skip lines that don't match the expected "Number. Title - DOI: DOI (notes)" format
@@ -235,3 +242,25 @@ def convert_df_to_excel(df):
         worksheet.set_column('A:B', None, center_data_format)
 
     return output.getvalue()
+
+
+def run_safe_analysis(func, *args, **kwargs):
+    """
+    Executes an analysis function safely within the Streamlit UI.
+    """
+    try:
+        with st.spinner("Processing data..."):
+            result = func(*args, **kwargs)
+            df = convert_string_to_df(result)
+            
+            if df.empty:
+                st.warning("No data found matching those criteria.")
+                return None
+            return df
+    except FileNotFoundError:
+        st.error("❌ File not found. Please check your path.")
+    except ValueError as e:
+        st.error(f"❌ Data Error: {e}")
+    except Exception as e:
+        st.error(f"⚠️ An unexpected error occurred: {e}")
+    return None
