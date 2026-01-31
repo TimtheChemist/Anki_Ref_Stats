@@ -248,25 +248,3 @@ def convert_df_to_excel(df):
         worksheet.set_column('A:B', None, center_data_format)
 
     return output.getvalue()
-
-
-def run_safe_analysis(func, *args, **kwargs):
-    """
-    Executes an analysis function safely within the Streamlit UI.
-    """
-    try:
-        with st.spinner("Processing data..."):
-            result = func(*args, **kwargs)
-            df = convert_string_to_df(result)
-            
-            if df.empty:
-                st.warning("No data found matching those criteria.")
-                return None
-            return df
-    except FileNotFoundError:
-        st.error("❌ File not found. Please check your path.")
-    except ValueError as e:
-        st.error(f"❌ Data Error: {e}")
-    except Exception as e:
-        st.error(f"⚠️ An unexpected error occurred: {e}")
-    return None

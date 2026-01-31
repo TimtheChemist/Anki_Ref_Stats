@@ -1,6 +1,7 @@
 import streamlit as st
 import io
 import pandas as pd
+from functions_core import convert_string_to_df
 
 def download_excel_button(excel_data):
     st.download_button(
@@ -9,3 +10,37 @@ def download_excel_button(excel_data):
     file_name="List_of_Top_References.xlsx",
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 )
+
+def run_safe_analysis(func, file_input, range_tuple, target_tags, nontarget_tags):
+    """
+    Centralized runner to validate input, execute parsing, and handle UI feedback.
+    """
+    # 1. Validate File Input
+    if file_input is None:
+        st.error("❌ Please upload a file or provide a valid file path first.")
+        return None
+
+    # 2. Validate Range Logic
+    if not isinstance(range_tuple, tuple) or len(range_tuple) != 2:
+        st.error("❌ Invalid range format.")
+        return None
+        
+    if range_tuple[0] > range_tuple[1]:
+        st.error("❌ The first number in the range must be less than or equal to the second.")
+        return None
+
+    # 3. Execute Core Logic
+    try:
+        with st.spinner("Parsing references..."):
+            raw_result = func(file_input, range_tuple, target_tags=target_tags, nontarget_tags=nontarget_tags)
+            df = convert_string_to_df(raw_result)
+
+            if df is None or df.empty:
+                st.warning("⚠️ No references found that match the specified criteria.")
+                return None
+                
+            return df
+            
+    except Exception as e:
+        st.error(f"⚠️ An unexpected error occurred: {e}")
+        return None
