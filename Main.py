@@ -44,15 +44,17 @@ range_of_references = st.sidebar.text_input("Enter the range of references (e.g.
 try: 
     range_of_references = range_of_references.split(",")
     range_of_references = (int(range_of_references[0]), int(range_of_references[1]))
-except:
-    number_of_references = ""
+except (ValueError, IndexError):
+    st.sidebar.error("⚠️ Invalid reference range. Please use 'start, end' format (e.g., 1, 20)")
+    range_of_references = (1, 20) # Provide a safe fallback default
 
 range_of_notes = st.sidebar.text_input("Enter the range of notes for filtering references (e.g., enter '10, 30' if you want to see all references that may be found in 10 to 30 notes): ", st.session_state.range_of_notes)
 try: 
     range_of_notes = range_of_notes.split(",")
     range_of_notes = (int(range_of_notes[0]), int(range_of_notes[1]))
-except:
-    number_of_notes = ""
+except (ValueError, IndexError):
+    st.sidebar.error("⚠️ Invalid note range. Please use 'start, end' format (e.g., 1, 200)")
+    range_of_notes = (1, 200) # Provide a safe fallback default
 
 target_tags = st.sidebar.text_input("Enter the tags for matching: ", st.session_state.target_tags)
 if target_tags == ['']:

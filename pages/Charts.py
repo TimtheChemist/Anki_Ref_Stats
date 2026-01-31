@@ -41,8 +41,9 @@ if not (path == "" or filename == ""):
 number_of_tags = st.sidebar.text_input("Enter the max number of tags to view: ", st.session_state.number_of_tags)
 try: 
     number_of_tags = int(number_of_tags)
-except:
-    number_of_tags = ""
+except (ValueError, IndexError):
+    st.sidebar.error("⚠️ Invalid tag number. Please enter a valid number.")
+    range_of_tags = 20 # Provide a safe fallback default
 
 target_tags = st.sidebar.text_input("Enter tags to include in charts: ", st.session_state.target_tags).split(",")
 if target_tags == ['']:
