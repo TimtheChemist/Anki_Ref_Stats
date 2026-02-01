@@ -76,5 +76,5 @@ def parse_range(input_str):
         return (parts[0], parts[1])
 
     except (ValueError, IndexError):
-        st.sidebar.error("⚠️ Invalid reference range. Please use 'start, end' format (e.g., 1, 20)")
+        st.sidebar.error("⚠️ Invalid range. Please use 'start, end' format (e.g., 1, 20)")
         return 

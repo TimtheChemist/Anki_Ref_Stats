@@ -5,7 +5,8 @@ import streamlit as st
 
 
 # Streamlit App
-st.title("Anki Reference Parser")
+st.title("📊 Reference Stat Generator")
+st.set_page_config(page_title="Anki Reference Parser", page_icon="📚")
 
 # Create the GUI uploader
 file_input = st.file_uploader("Choose a plaintext file", type=["txt", "md"])
@@ -25,8 +26,8 @@ for key, val in defaults.items():
     if key not in st.session_state:
         st.session_state[key] = val
 
-path = st.sidebar.text_input("Enter the file path:", value=st.session_state.path)
-filename = st.sidebar.text_input("Enter the plaintext file name:", value=st.session_state.filename)
+path = st.sidebar.text_input("File path:", value=st.session_state.path)
+filename = st.sidebar.text_input("File name:", value=st.session_state.filename)
 
 # Resolve file input logic
 if file_input is not None:
@@ -42,16 +43,16 @@ else:
             file_input = None # Prevent analysis buttons from running
 
 # Other input fields for user
-range_of_references = st.sidebar.text_input("Enter the range of references (e.g., enter '1, 20' if you want to see the 1st to 20th most frequently cited references): ", value=st.session_state.range_of_references, key = "range_of_references")
+range_of_references = st.sidebar.text_input("Range of references (e.g., enter '1, 20' if you want to see the 1st to 20th most frequently cited references): ", value=st.session_state.range_of_references, key = "range_of_references")
 range_of_references = parse_range(range_of_references)
 
-range_of_notes = st.sidebar.text_input("Enter the range of notes for filtering references (e.g., enter '10, 30' if you want to see all references that may be found in 10 to 30 notes): ", value=st.session_state.range_of_notes, key = "range_of_notes")
+range_of_notes = st.sidebar.text_input("Range of notes for filtering references (e.g., enter '10, 30' if you want to see all references that may be found in 10 to 30 notes): ", value=st.session_state.range_of_notes, key = "range_of_notes")
 range_of_notes = parse_range(range_of_notes)
 
 raw_target_tags = st.sidebar.text_input("Enter tags:", value=st.session_state.target_tags, key = "target_tags")
 target_tags = [t.strip() for t in raw_target_tags.split(",") if t.strip()]
 
-raw_nontarget_tags = st.sidebar.text_input("Enter tags:", value=st.session_state.nontarget_tags, key = "nontarget_tags")
+raw_nontarget_tags = st.sidebar.text_input("Enter non-target tags:", value=st.session_state.nontarget_tags, key = "nontarget_tags")
 nontarget_tags = [t.strip() for t in raw_nontarget_tags.split(",") if t.strip()]
 
 

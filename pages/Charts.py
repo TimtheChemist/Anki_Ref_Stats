@@ -7,7 +7,8 @@ import streamlit as st
 import plotly.express as px
 
 # Streamlit App
-st.title("Analyse Tag Distribution")
+st.title("📊 Tag Distribution Analyser")
+st.set_page_config(page_title="Anki Reference Parser", page_icon="📚")
 
 # Create the GUI uploader
 file_input = st.file_uploader("Choose a plaintext file", type=["txt", "md"])
@@ -29,8 +30,8 @@ if file_input is not None:
     st.success("File uploaded successfully!")
 
 
-path = st.sidebar.text_input("Enter the file path:", value=st.session_state.path)
-filename = st.sidebar.text_input("Enter the plaintext file name:", value=st.session_state.filename)
+path = st.sidebar.text_input("File path:", value=st.session_state.path)
+filename = st.sidebar.text_input("File name:", value=st.session_state.filename)
 
 
 # Logic to decide which file to use
@@ -46,7 +47,7 @@ else:
             file_input = None # Prevent analysis buttons from running
 
 # Other input fields for user
-number_of_tags = st.sidebar.text_input("Enter the max number of tags to view: ", st.session_state.number_of_tags)
+number_of_tags = st.sidebar.text_input("Max number of tags to view: ", st.session_state.number_of_tags)
 try: 
     number_of_tags = int(number_of_tags)
 except (ValueError, IndexError):

@@ -4,6 +4,11 @@ from functions_core import generate_paper_frequencies, generate_textbook_frequen
 import os
 import streamlit as st
 
+"""
+This is a space to run the program on the command line without using the Streamlit GUI
+(e.g., for testing and debugging).
+"""
+
 
 filename = 'All_Decks_Cards.txt'
 range_of_papers = (1,20)
