@@ -38,7 +38,12 @@ if file_input is not None:
     file_input = file_input 
 else:
     file_input = os.path.join(path.strip('"'), filename + ".txt") if path and filename else None
-
+    if file_input:
+        if os.path.exists(file_input):
+            st.sidebar.success("✅ File found on disk.")
+        else:
+            st.sidebar.error("❌ File not found. Check path/filename.")
+            file_input = None # Prevent analysis buttons from running
 
 # Other input fields for user
 number_of_tags = st.sidebar.text_input("Enter the max number of tags to view: ", st.session_state.number_of_tags)

@@ -16,7 +16,7 @@ defaults = {
     "path": r'"/home/timot/workspace/github.com/Anki_Ref_Stats"',
     "filename": 'All_Decks_Cards',
     "range_of_references": '1,20',
-    "range_of_notes": '1,100',
+    "range_of_notes": "",
     "target_tags": "",
     "nontarget_tags": ""
 }
@@ -34,7 +34,12 @@ if file_input is not None:
     
 else:
     file_input = os.path.join(path.strip('"'), filename + ".txt") if path and filename else None
-
+    if file_input:
+        if os.path.exists(file_input):
+            st.sidebar.success("✅ File found on disk.")
+        else:
+            st.sidebar.error("❌ File not found. Check path/filename.")
+            file_input = None # Prevent analysis buttons from running
 
 # Other input fields for user
 range_of_references = st.sidebar.text_input("Enter the range of references (e.g., enter '1, 20' if you want to see the 1st to 20th most frequently cited references): ", value=st.session_state.range_of_references, key = "range_of_references")
