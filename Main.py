@@ -1,5 +1,5 @@
 from functions_core import generate_paper_frequencies, generate_textbook_frequencies, get_textbooks_by_note_range, get_papers_by_note_range, convert_string_to_df, convert_df_to_excel
-from functions_streamlit import download_excel_button, run_safe_analysis, parse_range
+from functions_streamlit import download_excel_button, run_safe_analysis, parse_range, clear_fields_main
 import os
 import streamlit as st
 
@@ -51,14 +51,7 @@ nontarget_tags = [t.strip() for t in raw_nontarget_tags.split(",") if t.strip()]
 
 
 # Buttons to trigger functions
-if st.sidebar.button("Clear Fields"):
-    st.session_state.path = ""
-    st.session_state.filename = ""
-    st.session_state.target_tags = ""
-    st.session_state.nontarget_tags = ""
-    st.session_state.range_of_references = ""
-    st.session_state.range_of_notes = ""
-    st.rerun()
+st.sidebar.button("Clear Fields", on_click=clear_fields_main)
 
 if st.sidebar.button("Generate Paper Frequencies"):
     df = run_safe_analysis(generate_paper_frequencies, file_input, range_of_references, target_tags, nontarget_tags)

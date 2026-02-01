@@ -54,6 +54,15 @@ def clear_fields_charts():
     st.session_state.target_tags = ""
 
 
+def clear_fields_main():
+    st.session_state.path = ""
+    st.session_state.filename = ""
+    st.session_state.target_tags = ""
+    st.session_state.nontarget_tags = ""
+    st.session_state.range_of_references = ""
+    st.session_state.range_of_notes = ""
+
+
 def populate_journal_tags(file_input):
     if file_input:
         st.session_state.target_tags = tag_dict_organiser(file_input)
