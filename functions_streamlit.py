@@ -2,6 +2,7 @@ import streamlit as st
 import io
 import pandas as pd
 from functions_core import convert_string_to_df
+from functions_tag_charts import tag_dict_organiser
 
 def download_excel_button(excel_data):
     st.download_button(
@@ -51,3 +52,8 @@ def clear_fields_charts():
     st.session_state.filename = ""
     st.session_state.number_of_tags = ""
     st.session_state.target_tags = ""
+
+
+def populate_journal_tags(file_input):
+    if file_input:
+        st.session_state.target_tags = tag_dict_organiser(file_input)

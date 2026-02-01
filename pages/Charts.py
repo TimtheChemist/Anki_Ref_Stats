@@ -1,6 +1,6 @@
 from functions_tag_charts import parse_tags, get_tag_counts, tag_dict_organiser, generate_pie_chart, generate_bar_chart
 from functions_core import generate_paper_frequencies, generate_textbook_frequencies, get_textbooks_by_note_range, get_papers_by_note_range, convert_string_to_df
-from functions_streamlit import clear_fields_charts
+from functions_streamlit import clear_fields_charts, populate_journal_tags
 
 import os
 import streamlit as st
@@ -55,8 +55,7 @@ if target_tags == ['']:
 
 st.sidebar.button("Clear Fields", on_click=clear_fields_charts)
     
-if st.sidebar.button("Populate with Journal Tags"):
-    st.session_state.target_tags = tag_dict_organiser(file_input)   
+st.sidebar.button("Populate with Journal Tags", on_click=populate_journal_tags(file_input))
 
 if st.sidebar.button("Generate Pie Chart"):
     if not file_input:
