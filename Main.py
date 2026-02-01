@@ -11,21 +11,6 @@ st.title("Anki Reference Parser")
 file_input = st.file_uploader("Choose a plaintext file", type=["txt", "md"])
 st.sidebar.header("Input Parameters")
 
-if file_input is not None:
-    st.success("File uploaded successfully!")
-
-    # Remove default values in file path input fields
-    filename = st.sidebar.text_input("Enter the plaintext file name (without extension):")
-    path = st.sidebar.text_input("Enter the file path:")
-
-else:
-    # Add default values for file path input fields
-    path = st.sidebar.text_input("Enter the file path:", r'"/home/timot/workspace/github.com/Anki_Ref_Stats"')
-    filename = st.sidebar.text_input("Enter the plaintext file name (without extension):", 'All_Decks_Cards')
-
-if not (path == "" or filename == ""):
-    file_input = os.path.join(path.strip('"'), filename + ".txt")
-
 # Initialise session state for text inputs
 defaults = {
     "path": r'"/home/timot/workspace/github.com/Anki_Ref_Stats"',
@@ -39,6 +24,16 @@ defaults = {
 for key, val in defaults.items():
     if key not in st.session_state:
         st.session_state[key] = val
+
+path = st.sidebar.text_input("Enter the file path:", value=st.session_state.path)
+filename = st.sidebar.text_input("Enter the plaintext file name:", value=st.session_state.filename)
+
+# Resolve file input logic
+if file_input is not None:
+    st.success("File uploaded successfully!")
+    
+else:
+    file_input = os.path.join(path.strip('"'), filename + ".txt") if path and filename else None
 
 
 # Other input fields for user
