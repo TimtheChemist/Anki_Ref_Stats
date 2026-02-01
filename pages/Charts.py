@@ -48,15 +48,13 @@ except (ValueError, IndexError):
 
 raw_tags = st.sidebar.text_input("Enter tags:", value=st.session_state.target_tags)
 target_tags = [t.strip() for t in raw_tags.split(",") if t.strip()]
-if target_tags == ['']:
-    target_tags = []
 
 
 # Buttons
 
 st.sidebar.button("Clear Fields", on_click=clear_fields_charts)
     
-st.sidebar.button("Populate with Journal Tags", on_click=populate_journal_tags(file_input))
+st.sidebar.button("Populate with Journal Tags", on_click=populate_journal_tags, args=(file_input,))
 
 if st.sidebar.button("Generate Pie Chart"):
     if not file_input:
