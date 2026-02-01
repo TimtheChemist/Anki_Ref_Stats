@@ -1,5 +1,6 @@
 from functions_tag_charts import parse_tags, get_tag_counts, tag_dict_organiser, generate_pie_chart, generate_bar_chart
 from functions_core import generate_paper_frequencies, generate_textbook_frequencies, get_textbooks_by_note_range, get_papers_by_note_range, convert_string_to_df
+from functions_streamlit import clear_fields_charts
 
 import os
 import streamlit as st
@@ -52,21 +53,23 @@ if target_tags == ['']:
 
 # Buttons
 
-if st.sidebar.button("Clear Fields"):
-    st.session_state.path = ""
-    st.session_state.filename = ""
-    st.session_state.number_of_tags = ""
-    st.session_state.target_tags = ""
+st.sidebar.button("Clear Fields", on_click=clear_fields_charts)
     
 if st.sidebar.button("Populate with Journal Tags"):
     st.session_state.target_tags = tag_dict_organiser(file_input)   
 
 if st.sidebar.button("Generate Pie Chart"):
-    st.subheader(f"Showing distribution of Tags")
-    pie_chart = generate_pie_chart(file_input, tags=target_tags, number=number_of_tags)
-    st.plotly_chart(pie_chart, use_container_width=True)
+    if not file_input:
+        st.error("Please provide a file first.")
+    else:
+        st.subheader("Tag Distribution (Pie Chart)")
+        fig = generate_pie_chart(file_input, tags=target_tags, number=number_of_tags)
+        st.plotly_chart(fig, use_container_width=True)
 
 if st.sidebar.button("Generate Bar Chart"):
-    st.subheader(f"Showing distribution of Tags")
-    bar_chart = generate_bar_chart(file_input, tags=target_tags, number=number_of_tags)
-    st.plotly_chart(bar_chart, use_container_width=True)
+    if not file_input:
+        st.error("Please provide a file first.")
+    else:
+        st.subheader(f"Tag Distribution (Bar Chart)")
+        bar_chart = generate_bar_chart(file_input, tags=target_tags, number=number_of_tags)
+        st.plotly_chart(bar_chart, use_container_width=True)

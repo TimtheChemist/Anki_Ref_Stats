@@ -44,3 +44,10 @@ def run_safe_analysis(func, file_input, range_tuple, target_tags, nontarget_tags
     except Exception as e:
         st.error(f"❌ An unexpected error occurred: {e}")
         return None
+
+
+def clear_fields_charts():
+    st.session_state.path = ""
+    st.session_state.filename = ""
+    st.session_state.number_of_tags = ""
+    st.session_state.target_tags = ""
