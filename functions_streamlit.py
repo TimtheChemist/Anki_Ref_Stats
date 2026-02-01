@@ -57,3 +57,14 @@ def clear_fields_charts():
 def populate_journal_tags(file_input):
     if file_input:
         st.session_state.target_tags = tag_dict_organiser(file_input)
+
+
+def parse_range(input_str):
+    """Safely converts 'start, end' string to a tuple of ints."""
+    try:
+        parts = [int(x.strip()) for x in input_str.split(",")]
+        return (parts[0], parts[1])
+
+    except (ValueError, IndexError):
+        st.sidebar.error("⚠️ Invalid reference range. Please use 'start, end' format (e.g., 1, 20)")
+        return 

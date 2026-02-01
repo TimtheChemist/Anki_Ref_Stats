@@ -1,5 +1,5 @@
 from functions_core import generate_paper_frequencies, generate_textbook_frequencies, get_textbooks_by_note_range, get_papers_by_note_range, convert_string_to_df, convert_df_to_excel
-from functions_streamlit import download_excel_button, run_safe_analysis
+from functions_streamlit import download_excel_button, run_safe_analysis, parse_range
 import os
 import streamlit as st
 
@@ -43,20 +43,10 @@ for key, val in defaults.items():
 
 # Other input fields for user
 range_of_references = st.sidebar.text_input("Enter the range of references (e.g., enter '1, 20' if you want to see the 1st to 20th most frequently cited references): ", value=st.session_state.range_of_references, key = "range_of_references")
-try: 
-    range_of_references = range_of_references.split(",")
-    range_of_references = (int(range_of_references[0]), int(range_of_references[1]))
-except (ValueError, IndexError):
-    st.sidebar.error("⚠️ Invalid reference range. Please use 'start, end' format (e.g., 1, 20)")
-    range_of_references = (1, 20) # Provide a safe fallback default
+range_of_references = parse_range(range_of_references)
 
 range_of_notes = st.sidebar.text_input("Enter the range of notes for filtering references (e.g., enter '10, 30' if you want to see all references that may be found in 10 to 30 notes): ", value=st.session_state.range_of_notes, key = "range_of_notes")
-try: 
-    range_of_notes = range_of_notes.split(",")
-    range_of_notes = (int(range_of_notes[0]), int(range_of_notes[1]))
-except (ValueError, IndexError):
-    st.sidebar.error("⚠️ Invalid note range. Please use 'start, end' format (e.g., 1, 200)")
-    range_of_notes = (1, 200) # Provide a safe fallback default
+range_of_notes = parse_range(range_of_notes)
 
 raw_target_tags = st.sidebar.text_input("Enter tags:", value=st.session_state.target_tags, key = "target_tags")
 target_tags = [t.strip() for t in raw_target_tags.split(",") if t.strip()]
