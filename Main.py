@@ -58,7 +58,8 @@ except (ValueError, IndexError):
     st.sidebar.error("⚠️ Invalid note range. Please use 'start, end' format (e.g., 1, 200)")
     range_of_notes = (1, 200) # Provide a safe fallback default
 
-target_tags = st.sidebar.text_input("Enter the tags for matching: ", value=st.session_state.target_tags, key = "target_tags").split(",")
+raw_tags = st.sidebar.text_input("Enter tags:", value=st.session_state.target_tags, key = "target_tags")
+target_tags = [t.strip() for t in raw_tags.split(",") if t.strip()]
 if target_tags == ['']:
     target_tags = []
 

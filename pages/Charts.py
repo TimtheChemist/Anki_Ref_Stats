@@ -46,7 +46,8 @@ except (ValueError, IndexError):
     st.sidebar.error("❌ Invalid tag number. Please enter a valid number.")
     range_of_tags = 20 # Provide a safe fallback default
 
-target_tags = st.sidebar.text_input("Enter tags to include in charts: ", st.session_state.target_tags).split(",")
+raw_tags = st.sidebar.text_input("Enter tags:", value=st.session_state.target_tags)
+target_tags = [t.strip() for t in raw_tags.split(",") if t.strip()]
 if target_tags == ['']:
     target_tags = []
 
