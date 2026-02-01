@@ -20,6 +20,7 @@ defaults = {
     "number_of_tags": "15",
     "target_tags": "Review,Mechanism,Photochemistry"
 }
+
 for key, val in defaults.items():
     if key not in st.session_state:
         st.session_state[key] = val
@@ -27,17 +28,15 @@ for key, val in defaults.items():
 if file_input is not None:
     st.success("File uploaded successfully!")
 
-    # Remove default values in file path input fields
-    filename = st.sidebar.text_input("Enter the plaintext file name (without extension):", st.session_state.filename)
-    path = st.sidebar.text_input("Enter the file path:", st.session_state.path)
 
+path = st.sidebar.text_input("Enter the file path:", value=st.session_state.path)
+filename = st.sidebar.text_input("Enter the plaintext file name:", value=st.session_state.filename)
+
+# Logic to decide which file to use
+if file_input is not None:
+    file_input = file_input 
 else:
-    # Add default values for file path input fields
-    path = st.sidebar.text_input("Enter the file path:", st.session_state.path)
-    filename = st.sidebar.text_input("Enter the plaintext file name (without extension):", st.session_state.filename)
-
-if not (path == "" or filename == ""):
-    file_input = os.path.join(path.strip('"'), filename + ".txt")
+    file_input = os.path.join(path.strip('"'), filename + ".txt") if path and filename else None
 
 # Other input fields for user
 number_of_tags = st.sidebar.text_input("Enter the max number of tags to view: ", st.session_state.number_of_tags)

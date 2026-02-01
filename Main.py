@@ -34,8 +34,8 @@ defaults = {
     "range_of_notes": '1,100',
     "target_tags": "",
     "nontarget_tags": ""
-
 }
+
 for key, val in defaults.items():
     if key not in st.session_state:
         st.session_state[key] = val
