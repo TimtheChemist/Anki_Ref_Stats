@@ -27,18 +27,19 @@ if not (path == "" or filename == ""):
     file_input = os.path.join(path.strip('"'), filename + ".txt")
 
 # Initialise session state for text inputs
-if "path" not in st.session_state:
-    st.session_state.path = r'"/home/timot/workspace/github.com/Anki_Ref_Stats"'
-if "filename" not in st.session_state:
-    st.session_state.filename = 'All_Decks_Cards'
-if "target_tags" not in st.session_state:
-    st.session_state.target_tags = ""
-if "nontarget_tags" not in st.session_state:
-    st.session_state.nontarget_tags = ""
-if "range_of_references" not in st.session_state:
-    st.session_state.range_of_references = "1,20"
-if "range_of_notes" not in st.session_state:
-    st.session_state.range_of_notes = "1,100"
+defaults = {
+    "path": r'"/home/timot/workspace/github.com/Anki_Ref_Stats"',
+    "filename": 'All_Decks_Cards',
+    "range_of_references": '1,20',
+    "range_of_notes": '1,100',
+    "target_tags": "",
+    "nontarget_tags": ""
+
+}
+for key, val in defaults.items():
+    if key not in st.session_state:
+        st.session_state[key] = val
+
 
 # Other input fields for user
 range_of_references = st.sidebar.text_input("Enter the range of references (e.g., enter '1, 20' if you want to see the 1st to 20th most frequently cited references): ", value=st.session_state.range_of_references, key = "range_of_references")

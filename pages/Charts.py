@@ -14,14 +14,15 @@ file_input = st.file_uploader("Choose a plaintext file", type=["txt", "md"])
 st.sidebar.header("Input Parameters")
 
 # Initialise session state for text inputs
-if "path" not in st.session_state:
-    st.session_state.path = r'"/home/timot/workspace/github.com/Anki_Ref_Stats"'
-if "filename" not in st.session_state:
-    st.session_state.filename = 'All_Decks_Cards'
-if "number_of_tags" not in st.session_state:
-    st.session_state.number_of_tags = "15"
-if "target_tags" not in st.session_state:
-    st.session_state.target_tags = "Review,Mechanism,Photochemistry"
+defaults = {
+    "path": r'"/home/timot/workspace/github.com/Anki_Ref_Stats"',
+    "filename": 'All_Decks_Cards',
+    "number_of_tags": "15",
+    "target_tags": "Review,Mechanism,Photochemistry"
+}
+for key, val in defaults.items():
+    if key not in st.session_state:
+        st.session_state[key] = val
 
 if file_input is not None:
     st.success("File uploaded successfully!")
